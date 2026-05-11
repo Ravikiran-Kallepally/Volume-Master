@@ -3,7 +3,7 @@
  * Manages per-tab state, per-site memory, and keyboard shortcuts.
  */
 
-// In-memory tab state: tabId → { volume: number, muted: boolean }
+// In-memory tab state: tabId → { volume, muted, smartBoost }
 const tabState = {};
 
 // ── Injection ────────────────────────────────────────────────────────────────
@@ -17,21 +17,20 @@ async function ensureInjected(tabId) {
       await chrome.scripting.executeScript({ target: { tabId }, files: ['content.js'] });
       return true;
     } catch {
-      return false; // chrome://, about:, file:// without flag, etc.
+      return false;
     }
   }
 }
 
-async function applyToTab(tabId, volume, muted) {
+async function applyToTab(tabId, volume, muted, smartBoost = false) {
   const ok = await ensureInjected(tabId);
   if (!ok) return false;
-  tabState[tabId] = { volume, muted };
+  tabState[tabId] = { volume, muted, smartBoost };
   try {
-    await chrome.tabs.sendMessage(tabId, { type: 'SET_VOLUME', volume });
-    await chrome.tabs.sendMessage(tabId, { type: 'SET_MUTED', muted });
-  } catch {
-    // Tab may have navigated away mid-call
-  }
+    await chrome.tabs.sendMessage(tabId, { type: 'SET_VOLUME',      volume });
+    await chrome.tabs.sendMessage(tabId, { type: 'SET_MUTED',       muted });
+    await chrome.tabs.sendMessage(tabId, { type: 'SET_SMART_BOOST', enabled: smartBoost });
+  } catch {}
   return true;
 }
 
@@ -45,9 +44,10 @@ chrome.tabs.onUpdated.addListener(async (tabId, info, tab) => {
   try { hostname = new URL(tab.url).hostname; } catch { return; }
 
   const stored = await chrome.storage.local.get(hostname);
-  const saved = stored[hostname];
-  if (saved != null && saved !== 1.0) {
-    await applyToTab(tabId, saved, false);
+  const saved  = stored[hostname];
+  if (saved != null) {
+    const { volume, smartBoost } = saved;
+    if (volume !== 1.0) await applyToTab(tabId, volume, false, smartBoost ?? false);
   }
 });
 
@@ -63,16 +63,16 @@ chrome.commands.onCommand.addListener(async command => {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   if (!tab) return;
 
-  const cur = tabState[tab.id] ?? { volume: 1.0, muted: false };
+  const cur = tabState[tab.id] ?? { volume: 1.0, muted: false, smartBoost: false };
 
   if (command === 'increase-volume') {
-    const v = Math.min(6.0, parseFloat((cur.volume + 0.1).toFixed(2)));
-    await applyToTab(tab.id, v, cur.muted);
+    const v = Math.min(10.0, parseFloat((cur.volume + 0.1).toFixed(2)));
+    await applyToTab(tab.id, v, cur.muted, cur.smartBoost);
   } else if (command === 'decrease-volume') {
     const v = Math.max(0, parseFloat((cur.volume - 0.1).toFixed(2)));
-    await applyToTab(tab.id, v, cur.muted);
+    await applyToTab(tab.id, v, cur.muted, cur.smartBoost);
   } else if (command === 'toggle-mute') {
-    await applyToTab(tab.id, cur.volume, !cur.muted);
+    await applyToTab(tab.id, cur.volume, !cur.muted, cur.smartBoost);
   }
 });
 
@@ -83,30 +83,29 @@ chrome.runtime.onMessage.addListener((msg, _sender, respond) => {
     switch (msg.type) {
 
       case 'GET_TAB_STATE':
-        respond(tabState[msg.tabId] ?? { volume: 1.0, muted: false });
+        respond(tabState[msg.tabId] ?? { volume: 1.0, muted: false, smartBoost: false });
         break;
 
       case 'SET_TAB_VOLUME': {
-        const ok = await applyToTab(msg.tabId, msg.volume, msg.muted ?? false);
+        const ok = await applyToTab(msg.tabId, msg.volume, msg.muted ?? false, msg.smartBoost ?? false);
         respond({ ok });
         break;
       }
 
       case 'SAVE_SITE_VOLUME': {
-        const { hostname, volume } = msg;
+        const { hostname, volume, smartBoost } = msg;
         if (volume === 1.0) {
           await chrome.storage.local.remove(hostname);
         } else {
-          await chrome.storage.local.set({ [hostname]: volume });
+          await chrome.storage.local.set({ [hostname]: { volume, smartBoost } });
         }
         respond({ ok: true });
         break;
       }
 
       case 'GET_SITE_VOLUME': {
-        const { hostname } = msg;
-        const stored = await chrome.storage.local.get(hostname);
-        respond({ volume: stored[hostname] ?? null });
+        const stored = await chrome.storage.local.get(msg.hostname);
+        respond({ saved: stored[msg.hostname] ?? null });
         break;
       }
 
@@ -115,18 +114,19 @@ chrome.runtime.onMessage.addListener((msg, _sender, respond) => {
         const audio = all
           .filter(t => t.audible || tabState[t.id])
           .map(t => ({
-            id: t.id,
-            title: t.title,
-            url: t.url,
+            id:         t.id,
+            title:      t.title,
+            url:        t.url,
             favIconUrl: t.favIconUrl,
-            audible: !!t.audible,
-            volume: tabState[t.id]?.volume ?? 1.0,
-            muted: tabState[t.id]?.muted ?? false,
+            audible:    !!t.audible,
+            volume:     tabState[t.id]?.volume     ?? 1.0,
+            muted:      tabState[t.id]?.muted      ?? false,
+            smartBoost: tabState[t.id]?.smartBoost ?? false,
           }));
         respond(audio);
         break;
       }
     }
   })();
-  return true; // keep channel open for async response
+  return true;
 });

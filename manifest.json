@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Volume Master",
   "version": "2.0.0",
-  "description": "Up to 600% volume boost. Per-site memory, keyboard shortcuts, and fine-grained control for every tab.",
+  "description": "Up to 1000% volume boost with Smart Boost compressor — clean audio at any level. Per-site memory, keyboard shortcuts, and fine-grained control for every tab.",
   "permissions": [
     "activeTab",
     "tabs",

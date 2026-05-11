@@ -1,0 +1,310 @@
+================================================================================
+                         VOLUME MASTER — USER MANUAL
+                         Up to 1000% Volume Boost
+================================================================================
+
+Welcome to Volume Master. This guide covers every feature so you can get the
+most out of it on any website.
+
+--------------------------------------------------------------------------------
+CONTENTS
+--------------------------------------------------------------------------------
+
+  1. Getting Started
+  2. The Volume Slider
+  3. Quick Presets
+  4. Smart Boost — Clean Audio at High Volumes
+  5. Mute Toggle
+  6. Per-Site Memory (Save for Site)
+  7. Keyboard Shortcuts
+  8. Audio Tabs List
+  9. Tips & Best Practices
+ 10. Troubleshooting
+ 11. Privacy
+
+--------------------------------------------------------------------------------
+1. GETTING STARTED
+--------------------------------------------------------------------------------
+
+After installing the extension, click the Volume Master icon in your Chrome
+toolbar to open the control panel.
+
+The panel shows:
+  • The current tab's title and favicon
+  • A large volume percentage display
+  • The main volume slider (0% – 1000%)
+  • Quick preset buttons
+  • Smart Boost toggle
+  • Mute, Save, and Reset controls
+  • A list of other tabs currently playing audio
+
+To control a tab's volume, simply open the popup while that tab is active and
+move the slider. Volume changes apply instantly.
+
+Note: Volume Master cannot control audio on Chrome system pages (chrome://...),
+the Chrome Web Store, or browser-level pages. It works on all regular websites.
+
+--------------------------------------------------------------------------------
+2. THE VOLUME SLIDER
+--------------------------------------------------------------------------------
+
+Range: 0% to 1000%
+
+The slider is color-coded to help you judge boost levels at a glance:
+
+  Violet  (0%   – 100%)   Normal range — matches your system volume
+  Green   (100% – 200%)   Mild boost — clean on most content
+  Amber   (200% – 400%)   High boost — use Smart Boost for best results
+  Red     (400% – 1000%)  Extreme boost — always use Smart Boost here
+
+Dragging left of the 100% mark reduces volume (useful for quieting a loud tab
+without changing your system volume).
+
+The large number in the center always shows your exact current percentage.
+
+--------------------------------------------------------------------------------
+3. QUICK PRESETS
+--------------------------------------------------------------------------------
+
+Five preset buttons let you jump to common levels instantly:
+
+  [ 50%  ]  Quiet — half your system volume
+  [ 100% ]  Normal — no boost or reduction
+  [ 200% ]  2× boost — good for quiet videos and podcasts
+  [ 400% ]  4× boost — for very quiet recordings
+  [ 1000%]  10× boost — maximum, use with Smart Boost enabled
+
+Clicking a preset also clears the mute state.
+
+--------------------------------------------------------------------------------
+4. SMART BOOST — CLEAN AUDIO AT HIGH VOLUMES
+--------------------------------------------------------------------------------
+
+Smart Boost is the most important feature for listening at high volumes.
+
+  WHAT IT DOES
+  ────────────
+  At high gain levels (above ~200%), raw audio amplification causes clipping —
+  a harsh, distorted sound that occurs when the signal exceeds the hardware's
+  maximum output level.
+
+  Smart Boost adds a DynamicsCompressor to the audio chain. It acts as a
+  transparent limiter: it only engages near the peak level, catching loud
+  spikes before they distort, while leaving quiet passages untouched. The
+  result is louder perceived volume without the harshness.
+
+  Think of it as the difference between turning an amplifier up until it
+  clips versus using a professional limiter to push loudness cleanly.
+
+  HOW TO USE IT
+  ─────────────
+  Click the "⚡ Smart Boost" row in the popup to toggle it on or off.
+  The row lights up in purple when active.
+
+  WHEN TO USE IT
+  ──────────────
+  Volume               Recommendation
+  ─────────────────    ─────────────────────────────────────────────────────
+  0% – 200%            Optional — most content sounds fine without it
+  200% – 400%          Recommended — prevents distortion on loud passages
+  400% – 1000%         Always use Smart Boost for usable audio quality
+
+  WHEN NOT TO USE IT
+  ──────────────────
+  If you are monitoring or recording audio and need the unprocessed signal,
+  leave Smart Boost off. The compressor slightly changes the dynamic range,
+  which is undesirable in professional monitoring contexts.
+
+  Smart Boost state is saved alongside your volume when you use "Save for site"
+  so it will restore automatically on your favourite sites.
+
+--------------------------------------------------------------------------------
+5. MUTE TOGGLE
+--------------------------------------------------------------------------------
+
+The [Mute] button instantly silences the current tab without moving the slider.
+Your volume setting is preserved — clicking [Unmute] restores it exactly.
+
+The volume percentage display dims and shows "MUTED" when active.
+The button turns red when muted.
+
+Useful for: quickly silencing an auto-playing ad without losing your boost
+setting, or temporarily quieting a tab during a call.
+
+You can also mute via keyboard shortcut (see Section 7).
+
+--------------------------------------------------------------------------------
+6. PER-SITE MEMORY  (Save for Site)
+--------------------------------------------------------------------------------
+
+Volume Master can remember your preferred volume for each website and restore
+it automatically every time you visit.
+
+  HOW TO SAVE
+  ───────────
+  1. Set your preferred volume (and Smart Boost setting) for the site.
+  2. Click [Save for site].
+  3. A "Saved" confirmation appears and the bookmark icon lights up in the
+     header bar.
+
+  HOW IT WORKS
+  ────────────
+  The next time you open that website in any tab, Volume Master will
+  automatically apply your saved volume within a second of the page loading.
+  No need to open the popup.
+
+  REMOVING A SAVED SETTING
+  ─────────────────────────
+  Set the volume back to 100% and click [Save for site]. At 100%, the saved
+  entry is deleted and the site reverts to normal behaviour.
+
+  EXAMPLES
+  ────────
+  • Save YouTube at 200% + Smart Boost on  → always boosted when you open YouTube
+  • Save a news site at 60%                → auto-quiets that site's loud videos
+  • Save a podcast app at 350% + Smart Boost → clear speech on quiet recordings
+
+--------------------------------------------------------------------------------
+7. KEYBOARD SHORTCUTS
+--------------------------------------------------------------------------------
+
+Control the active tab's volume without opening the popup:
+
+  Alt + Shift + Up Arrow     Increase volume by 10%
+  Alt + Shift + Down Arrow   Decrease volume by 10%
+  Alt + Shift + M            Toggle mute on/off
+
+These shortcuts work globally in Chrome — you do not need to click the
+extension icon first.
+
+  CHANGING SHORTCUTS
+  ──────────────────
+  1. Go to chrome://extensions/shortcuts in your browser.
+  2. Find "Volume Master" in the list.
+  3. Click the pencil icon next to any shortcut and press your preferred keys.
+
+Note: Chrome reserves many key combinations. If your chosen shortcut conflicts,
+Chrome will warn you.
+
+--------------------------------------------------------------------------------
+8. AUDIO TABS LIST
+--------------------------------------------------------------------------------
+
+The bottom section of the popup lists every other tab currently playing audio
+or with a custom volume setting.
+
+Each row shows:
+  • The tab's favicon
+  • The tab's title (truncated if long)
+  • A volume badge:
+      – "150%"          Boosted (shown in purple)
+      – "Muted"         Muted (shown in red)
+      – No badge        Playing at 100% (normal)
+
+Clicking any row switches Chrome's focus to that tab and closes the popup.
+
+This makes it easy to jump between multiple audio sources — for example,
+switching between a music tab and a video call — without hunting through
+your open tabs.
+
+--------------------------------------------------------------------------------
+9. TIPS & BEST PRACTICES
+--------------------------------------------------------------------------------
+
+  GET THE MOST FROM HIGH BOOST LEVELS
+  ────────────────────────────────────
+  • Always enable Smart Boost above 200% for clean, distortion-free audio.
+  • The effective maximum usable volume depends on the source recording quality:
+      – Well-mastered music/streaming : ~150% – 200%
+      – YouTube videos                : ~200% – 300%
+      – Podcasts and voice content    : ~300% – 500%
+      – Quiet user recordings         : ~500% – 1000%
+
+  QUIET TABS
+  ──────────
+  Use Volume Master below 100% to selectively quieten a specific tab rather
+  than lowering your system volume. This keeps other tabs at their normal level.
+
+  MULTIPLE AUDIO TABS
+  ───────────────────
+  Each tab has its own independent volume setting. You can boost one tab while
+  muting another simultaneously. Use the Audio Tabs list to manage them from
+  a single popup.
+
+  AUDIO THAT STARTS AFTER THE PAGE LOADS
+  ────────────────────────────────────────
+  Volume Master uses a MutationObserver to detect audio and video elements
+  added dynamically (e.g., after clicking Play on a streaming site). If
+  you set a volume before pressing Play, the boost is applied as soon as
+  the element appears.
+
+  RESETTING
+  ─────────
+  The [Reset] button returns volume to 100% and clears the mute state.
+  It does NOT clear a saved per-site preference — use "Save for site" at
+  100% to fully remove a saved setting.
+
+--------------------------------------------------------------------------------
+10. TROUBLESHOOTING
+--------------------------------------------------------------------------------
+
+  VOLUME BOOST HAS NO EFFECT
+  ───────────────────────────
+  • Make sure you are on a regular webpage (http:// or https://).
+  • Try refreshing the page and re-opening the popup.
+  • Some sites use protected media (DRM) which may limit audio access.
+  • If the audio element is inside a cross-origin iframe (e.g., an embedded
+    player from a different domain), the browser's security policy prevents
+    access. The popup will still work on any directly embedded audio/video.
+
+  AUDIO SOUNDS DISTORTED AT HIGH VOLUMES
+  ────────────────────────────────────────
+  Enable Smart Boost. Above 300%, distortion is expected without it as the
+  raw signal exceeds the hardware's clipping point.
+
+  "CANNOT CONTROL AUDIO ON THIS PAGE" MESSAGE
+  ────────────────────────────────────────────
+  This appears on pages where Chrome does not allow extensions to run scripts:
+    • chrome:// pages (settings, extensions, etc.)
+    • The Chrome Web Store
+    • about:// pages
+  This is a Chrome security restriction that cannot be bypassed.
+
+  EXTENSION ICON SHOWS A BLUE RECTANGLE IN THE TAB
+  ──────────────────────────────────────────────────
+  This is Chrome's built-in indicator that an extension is modifying audio
+  on the page. It is expected and intentional — Chrome requires it to keep
+  users informed. You cannot hide it; pressing F11 (Windows) or Ctrl+Cmd+F
+  (Mac) for full-screen will minimise its visual impact.
+
+  SAVED VOLUME NOT RESTORING
+  ───────────────────────────
+  • The saved volume only applies once the page finishes loading completely.
+  • If the site uses a single-page app architecture (e.g., YouTube), navigate
+    fully to the page — the boost applies after each navigation.
+  • Check that the volume was saved correctly by opening the popup: the
+    bookmark icon in the header should be visible (lit up).
+
+  KEYBOARD SHORTCUTS NOT WORKING
+  ──────────────────────────────
+  • Visit chrome://extensions/shortcuts and confirm the shortcuts are set.
+  • Chrome may have a conflict with another extension or system shortcut.
+  • Try reassigning to a different key combination.
+
+--------------------------------------------------------------------------------
+11. PRIVACY
+--------------------------------------------------------------------------------
+
+Volume Master does not collect, transmit, or sell any data.
+
+  • All settings are stored locally in Chrome's storage (chrome.storage.local)
+    on your own device.
+  • Per-site volume preferences never leave your browser.
+  • No analytics, tracking, or network requests of any kind.
+  • The extension requires "Read and change all your data on websites you visit"
+    because it must access the AudioContext of any page you want to control.
+    It reads nothing from page content — it only connects to the audio pipeline.
+
+================================================================================
+                     Volume Master  •  Version 2.0
+================================================================================

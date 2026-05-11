@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Volume Master</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="app">
+
+    <!-- ── Header ────────────────────────────────────── -->
+    <header class="header">
+      <div class="logo">
+        <svg class="logo-icon" width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/>
+          <path d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+        </svg>
+        <span class="logo-text">Volume Master</span>
+      </div>
+      <div class="header-right">
+        <div class="saved-badge" id="saved-badge" title="Volume saved for this site">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+          </svg>
+          Saved
+        </div>
+      </div>
+    </header>
+
+    <!-- ── Current tab info ──────────────────────────── -->
+    <div class="tab-info" id="tab-info">
+      <img class="favicon" id="favicon" src="" alt="" width="16" height="16">
+      <span class="tab-title" id="tab-title">Loading…</span>
+    </div>
+
+    <!-- ── Main controls ─────────────────────────────── -->
+    <div class="controls" id="controls">
+
+      <div class="volume-display" id="volume-display">
+        <span class="volume-num" id="vol-num">100</span>
+        <span class="volume-unit">%</span>
+        <span class="muted-label" id="muted-label">MUTED</span>
+      </div>
+
+      <div class="slider-wrap">
+        <input type="range" class="vol-slider" id="vol-slider"
+               min="0" max="600" step="1" value="100">
+      </div>
+
+      <div class="slider-labels">
+        <span>0%</span>
+        <span>100%</span>
+        <span>600%</span>
+      </div>
+
+      <div class="presets">
+        <button class="preset-btn" data-v="50">50%</button>
+        <button class="preset-btn" data-v="100">100%</button>
+        <button class="preset-btn" data-v="200">200%</button>
+        <button class="preset-btn" data-v="300">300%</button>
+        <button class="preset-btn" data-v="600">600%</button>
+      </div>
+
+      <div class="action-row">
+        <button class="btn btn-mute" id="btn-mute">
+          <!-- unmuted icon (default) -->
+          <svg class="icon-unmuted" width="14" height="14" viewBox="0 0 24 24" fill="none">
+            <path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <!-- muted icon (shown when muted) -->
+          <svg class="icon-muted" width="14" height="14" viewBox="0 0 24 24" fill="none">
+            <path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/>
+            <line x1="23" y1="9" x2="17" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <line x1="17" y1="9" x2="23" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span id="mute-label">Mute</span>
+        </button>
+
+        <button class="btn btn-save" id="btn-save" title="Remember this volume for the site">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+          </svg>
+          Save for site
+        </button>
+
+        <button class="btn btn-reset" id="btn-reset">Reset</button>
+      </div>
+
+    </div>
+
+    <!-- ── Blocked tab message ────────────────────────── -->
+    <div class="no-access" id="no-access">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+        <line x1="12" y1="8" x2="12" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="12" cy="16" r="1" fill="currentColor"/>
+      </svg>
+      <p>Cannot control audio on this page.</p>
+    </div>
+
+    <!-- ── Audio tabs list ────────────────────────────── -->
+    <section class="audio-section" id="audio-section">
+      <div class="section-header">
+        <span class="section-title">Audio Tabs</span>
+        <span class="tab-count" id="tab-count">0</span>
+      </div>
+      <div class="tabs-list" id="tabs-list"></div>
+    </section>
+
+  </div><!-- .app -->
+  <script src="popup.js"></script>
+</body>
+</html>

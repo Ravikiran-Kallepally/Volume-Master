@@ -232,6 +232,89 @@ body {
   position: relative;
 }
 
+/* ── Smart Boost ───────────────────────────────────────────────────────── */
+.smart-boost-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background .2s, border-color .2s;
+  user-select: none;
+}
+.smart-boost-row:hover { background: var(--surface); }
+.smart-boost-row.active {
+  background: rgba(124,58,237,.1);
+  border-color: rgba(124,58,237,.45);
+}
+
+.smart-boost-info { display: flex; align-items: center; gap: 10px; }
+
+.smart-boost-icon {
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition: color .2s;
+}
+.smart-boost-row.active .smart-boost-icon { color: #a78bfa; }
+
+.smart-boost-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-dim);
+  transition: color .2s;
+}
+.smart-boost-row.active .smart-boost-label { color: var(--text); }
+
+.smart-boost-desc {
+  display: block;
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 1px;
+}
+
+/* Toggle switch */
+.smart-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.toggle-track {
+  display: flex;
+  align-items: center;
+  width: 36px;
+  height: 20px;
+  border-radius: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 2px;
+  transition: background .25s, border-color .25s;
+}
+.smart-boost-row.active .toggle-track {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.toggle-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  transition: transform .25s cubic-bezier(.4,0,.2,1), background .25s;
+  flex-shrink: 0;
+}
+.smart-boost-row.active .toggle-thumb {
+  transform: translateX(16px);
+  background: #fff;
+}
+
 /* ── Presets ───────────────────────────────────────────────────────────── */
 .presets {
   display: flex;

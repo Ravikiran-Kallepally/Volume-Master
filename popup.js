@@ -3,28 +3,31 @@
 // ── DOM refs ──────────────────────────────────────────────────────────────────
 const $ = id => document.getElementById(id);
 
-const faviconEl    = $('favicon');
-const tabTitleEl   = $('tab-title');
-const volNumEl     = $('vol-num');
-const mutedLabelEl = $('muted-label');
-const slider       = $('vol-slider');
-const controlsEl   = $('controls');
-const noAccessEl   = $('no-access');
-const btnMute      = $('btn-mute');
-const muteLabelEl  = $('mute-label');
-const btnReset     = $('btn-reset');
-const btnSave      = $('btn-save');
-const savedBadge   = $('saved-badge');
-const tabsList     = $('tabs-list');
-const tabCountEl   = $('tab-count');
+const faviconEl      = $('favicon');
+const tabTitleEl     = $('tab-title');
+const volNumEl       = $('vol-num');
+const slider         = $('vol-slider');
+const controlsEl     = $('controls');
+const noAccessEl     = $('no-access');
+const btnMute        = $('btn-mute');
+const muteLabelEl    = $('mute-label');
+const btnReset       = $('btn-reset');
+const btnSave        = $('btn-save');
+const savedBadge     = $('saved-badge');
+const tabsList       = $('tabs-list');
+const tabCountEl     = $('tab-count');
+const smartBoostRow  = $('smart-boost-row');
+const btnSmartBoost  = $('btn-smart-boost');
 
 // ── State ─────────────────────────────────────────────────────────────────────
 let currentTab  = null;
-let volume      = 1.0;   // 1.0 = 100%
+let volume      = 1.0;
 let muted       = false;
+let smartBoost  = false;
 let hostname    = null;
-let saveTimer   = null;
 let applyTimer  = null;
+
+const MAX_VOL = 10.0;   // 1000%
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -37,14 +40,14 @@ function bgMsg(msg) {
   });
 }
 
-function pct(v) { return Math.round(v * 100); }
+function pct(v)  { return Math.round(v * 100); }
 
 function volColor(v) {
   const p = pct(v);
-  if (p <= 100) return '#a78bfa';
-  if (p <= 200) return '#10b981';
-  if (p <= 400) return '#f59e0b';
-  return '#ef4444';
+  if (p <= 100) return '#a78bfa';   // violet  — normal
+  if (p <= 200) return '#10b981';   // green   — mild boost
+  if (p <= 400) return '#f59e0b';   // amber   — high boost
+  return '#ef4444';                  // red     — extreme
 }
 
 function volZone(v) {
@@ -56,20 +59,18 @@ function volZone(v) {
 }
 
 function updateSliderTrack(v) {
-  const fillPct = (v / 6.0) * 100;
-  const color   = volColor(v);
-  slider.style.setProperty('--fill', `${fillPct.toFixed(2)}%`);
-  slider.style.setProperty('--fill-color', color);
+  const fillPct = (v / MAX_VOL) * 100;
+  slider.style.setProperty('--fill',       `${fillPct.toFixed(2)}%`);
+  slider.style.setProperty('--fill-color', volColor(v));
 }
 
-function updateUI(v, isMuted) {
-  // Number display
+function updateUI(v, isMuted, isSmartBoost) {
+  // Number
   volNumEl.textContent = pct(v);
   controlsEl.dataset.zone = volZone(v);
 
   // Muted state
-  const volumeDisplay = document.querySelector('.volume-display');
-  volumeDisplay.classList.toggle('is-muted', isMuted);
+  document.querySelector('.volume-display').classList.toggle('is-muted', isMuted);
   btnMute.classList.toggle('muted', isMuted);
   muteLabelEl.textContent = isMuted ? 'Unmute' : 'Mute';
 
@@ -77,10 +78,14 @@ function updateUI(v, isMuted) {
   slider.value = pct(v);
   updateSliderTrack(v);
 
-  // Presets — highlight matching
+  // Presets
   document.querySelectorAll('.preset-btn').forEach(btn => {
     btn.classList.toggle('active', parseInt(btn.dataset.v, 10) === pct(v));
   });
+
+  // Smart Boost toggle
+  smartBoostRow.classList.toggle('active', isSmartBoost);
+  btnSmartBoost.setAttribute('aria-pressed', String(isSmartBoost));
 }
 
 function showToast(msg, duration = 1800) {
@@ -96,17 +101,17 @@ function showToast(msg, duration = 1800) {
   t._timer = setTimeout(() => t.classList.remove('show'), duration);
 }
 
-// ── Apply volume (debounced) ──────────────────────────────────────────────────
+// ── Apply (debounced 50 ms) ───────────────────────────────────────────────────
 
 function scheduleApply() {
   clearTimeout(applyTimer);
-  applyTimer = setTimeout(() => applyNow(), 50);
+  applyTimer = setTimeout(applyNow, 50);
 }
 
 async function applyNow() {
   if (!currentTab) return;
   try {
-    await bgMsg({ type: 'SET_TAB_VOLUME', tabId: currentTab.id, volume, muted });
+    await bgMsg({ type: 'SET_TAB_VOLUME', tabId: currentTab.id, volume, muted, smartBoost });
   } catch {}
 }
 
@@ -115,10 +120,10 @@ async function applyNow() {
 async function saveSite() {
   if (!hostname) return;
   try {
-    await bgMsg({ type: 'SAVE_SITE_VOLUME', hostname, volume });
+    await bgMsg({ type: 'SAVE_SITE_VOLUME', hostname, volume, smartBoost });
     btnSave.classList.add('saved');
     savedBadge.classList.add('visible');
-    showToast(`Volume saved for ${hostname}`);
+    showToast(`Saved for ${hostname}`);
     setTimeout(() => btnSave.classList.remove('saved'), 2000);
   } catch {}
 }
@@ -130,31 +135,22 @@ async function init() {
   if (!tab) return;
   currentTab = tab;
 
-  // Tab info strip
   if (tab.favIconUrl) {
     faviconEl.src = tab.favIconUrl;
     faviconEl.style.display = 'inline';
   }
   tabTitleEl.textContent = tab.title || tab.url || 'Unknown tab';
 
-  // Hostname for site memory
   try { hostname = tab.url ? new URL(tab.url).hostname : null; } catch {}
 
-  // Check if site has a saved volume
+  // Check for saved site preference
   if (hostname) {
     try {
       const res = await bgMsg({ type: 'GET_SITE_VOLUME', hostname });
-      if (res?.volume != null) savedBadge.classList.add('visible');
+      if (res?.saved) savedBadge.classList.add('visible');
     } catch {}
   }
 
-  // Try to get current tab state from background
-  let state = null;
-  try {
-    state = await bgMsg({ type: 'GET_TAB_STATE', tabId: tab.id });
-  } catch {}
-
-  // Determine if this tab is injectable
   const canInject = tab.url &&
     (tab.url.startsWith('http://') || tab.url.startsWith('https://') || tab.url.startsWith('file://'));
 
@@ -164,12 +160,16 @@ async function init() {
   } else {
     controlsEl.style.display = '';
     noAccessEl.classList.remove('visible');
-    volume = state?.volume ?? 1.0;
-    muted  = state?.muted  ?? false;
-    updateUI(volume, muted);
+
+    let state = null;
+    try { state = await bgMsg({ type: 'GET_TAB_STATE', tabId: tab.id }); } catch {}
+
+    volume     = state?.volume     ?? 1.0;
+    muted      = state?.muted      ?? false;
+    smartBoost = state?.smartBoost ?? false;
+    updateUI(volume, muted, smartBoost);
   }
 
-  // Load audio tab list in background
   loadAudioTabs(tab.id);
 }
 
@@ -196,7 +196,7 @@ async function loadAudioTabs(currentTabId) {
     const p = pct(t.volume);
     let badgeClass = 'tab-vol-badge';
     let badgeText  = `${p}%`;
-    if (t.muted) { badgeClass += ' muted'; badgeText = 'Muted'; }
+    if (t.muted)    { badgeClass += ' muted';   badgeText = 'Muted'; }
     else if (p !== 100) badgeClass += ' boosted';
 
     row.innerHTML = `
@@ -207,8 +207,8 @@ async function loadAudioTabs(currentTabId) {
       <svg class="tab-row-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none">
         <polyline points="9 18 15 12 9 6" stroke="currentColor" stroke-width="2"
                   stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    `;
+      </svg>`;
+
     row.addEventListener('click', () => {
       chrome.tabs.update(t.id, { active: true });
       window.close();
@@ -218,37 +218,45 @@ async function loadAudioTabs(currentTabId) {
 }
 
 function escHtml(str) {
-  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return str
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 // ── Event listeners ───────────────────────────────────────────────────────────
 
 slider.addEventListener('input', () => {
   volume = parseInt(slider.value, 10) / 100;
-  updateUI(volume, muted);
+  updateUI(volume, muted, smartBoost);
   scheduleApply();
 });
 
 btnMute.addEventListener('click', () => {
   muted = !muted;
-  updateUI(volume, muted);
+  updateUI(volume, muted, smartBoost);
   applyNow();
 });
 
 btnReset.addEventListener('click', () => {
-  volume = 1.0;
-  muted  = false;
-  updateUI(volume, muted);
+  volume = 1.0; muted = false;
+  updateUI(volume, muted, smartBoost);
   applyNow();
 });
 
 btnSave.addEventListener('click', saveSite);
 
+// Smart Boost — clicking anywhere on the row or the button toggles it
+smartBoostRow.addEventListener('click', () => {
+  smartBoost = !smartBoost;
+  updateUI(volume, muted, smartBoost);
+  applyNow();
+});
+
 document.querySelectorAll('.preset-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     volume = parseInt(btn.dataset.v, 10) / 100;
     muted  = false;
-    updateUI(volume, muted);
+    updateUI(volume, muted, smartBoost);
     applyNow();
   });
 });

@@ -27,9 +27,8 @@ async function applyToTab(tabId, volume, muted, smartBoost = false) {
   if (!ok) return false;
   tabState[tabId] = { volume, muted, smartBoost };
   try {
-    await chrome.tabs.sendMessage(tabId, { type: 'SET_VOLUME',      volume });
-    await chrome.tabs.sendMessage(tabId, { type: 'SET_MUTED',       muted });
-    await chrome.tabs.sendMessage(tabId, { type: 'SET_SMART_BOOST', enabled: smartBoost });
+    // Single message — avoids tearing down the audio graph 3× per slider tick
+    await chrome.tabs.sendMessage(tabId, { type: 'SET_AUDIO_STATE', volume, muted, smartBoost });
   } catch {}
   return true;
 }

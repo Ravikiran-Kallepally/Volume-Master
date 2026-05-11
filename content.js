@@ -23,7 +23,7 @@
   function ensureContext() {
     if (state.ctx && state.ctx.state !== 'closed') return true;
     try {
-      state.ctx = new (window.AudioContext || window.webkitAudioContext)();
+      state.ctx  = new (window.AudioContext || window.webkitAudioContext)();
       state.gain = state.ctx.createGain();
       state.gain.gain.value = state.muted ? 0 : state.volume;
       buildChain();
@@ -34,14 +34,12 @@
   }
 
   /**
-   * Wire the audio graph based on current smartBoost setting.
+   * Wire the audio graph. Only called when the Smart Boost setting changes,
+   * NOT on every volume update — rebuilding the graph on every change breaks
+   * Chrome's audio pipeline.
    *
    *   Normal:      GainNode → Destination
    *   Smart Boost: GainNode → DynamicsCompressor → Destination
-   *
-   * The compressor acts as a transparent limiter: it only engages near 0 dBFS,
-   * catching peaks before they clip, so high gain values sound clean rather
-   * than distorted.
    */
   function buildChain() {
     if (!state.ctx || !state.gain) return;
@@ -55,10 +53,10 @@
 
     if (state.smartBoost) {
       const c = state.ctx.createDynamicsCompressor();
-      c.threshold.value = -6;   // dB  — engage only near peaks
-      c.knee.value      = 3;    // dB  — smooth onset
-      c.ratio.value     = 20;   // 20:1 ≈ hard limiter
-      c.attack.value    = 0.003; // 3 ms — fast enough to catch transients
+      c.threshold.value = -6;    // dB  — engage only near peaks
+      c.knee.value      = 3;     // dB  — smooth onset
+      c.ratio.value     = 20;    // 20:1 ≈ hard limiter
+      c.attack.value    = 0.003; // 3 ms
       c.release.value   = 0.25;  // 250 ms
       state.compressor  = c;
       state.gain.connect(c);
@@ -66,10 +64,9 @@
     } else {
       state.gain.connect(state.ctx.destination);
     }
-  }
 
-  function resume() {
-    if (state.ctx?.state === 'suspended') {
+    // Ensure context is running after every graph change
+    if (state.ctx.state === 'suspended') {
       state.ctx.resume().catch(() => {});
     }
   }
@@ -84,7 +81,9 @@
       const src = state.ctx.createMediaElementSource(el);
       src.connect(state.gain);
       state.connected.set(el, src);
-      resume();
+      if (state.ctx.state === 'suspended') {
+        state.ctx.resume().catch(() => {});
+      }
     } catch {
       // Cross-origin or already owned by another AudioContext
     }
@@ -123,28 +122,30 @@
         respond({ volume: state.volume, muted: state.muted, smartBoost: state.smartBoost });
         return false;
 
-      case 'SET_VOLUME':
-        state.volume = msg.volume;
-        if (state.gain && !state.muted) {
-          state.gain.gain.value = state.volume;
-        }
-        scanAndConnect();
-        respond({ ok: true });
-        return false;
+      /**
+       * Single message for all audio state changes.
+       * Only rebuilds the audio chain when Smart Boost actually toggles —
+       * rebuilding on every volume change was breaking Chrome's audio pipeline.
+       */
+      case 'SET_AUDIO_STATE': {
+        const boostChanged = (state.smartBoost !== msg.smartBoost);
 
-      case 'SET_MUTED':
-        state.muted = msg.muted;
+        state.volume     = msg.volume;
+        state.muted      = msg.muted;
+        state.smartBoost = msg.smartBoost;
+
+        // Rebuild chain only when necessary
+        if (boostChanged) buildChain();
+
+        // Update gain value directly — no graph rebuild needed
         if (state.gain) {
           state.gain.gain.value = state.muted ? 0 : state.volume;
         }
-        respond({ ok: true });
-        return false;
 
-      case 'SET_SMART_BOOST':
-        state.smartBoost = msg.enabled;
-        buildChain();
+        scanAndConnect();
         respond({ ok: true });
         return false;
+      }
     }
     return false;
   });

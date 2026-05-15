@@ -226,7 +226,15 @@ function escHtml(str) {
 // ── Event listeners ───────────────────────────────────────────────────────────
 
 slider.addEventListener('input', () => {
-  volume = parseInt(slider.value, 10) / 100;
+  const newVolume = parseInt(slider.value, 10) / 100;
+
+  // Auto-enable Smart Boost when crossing 400% going up
+  if (newVolume > 4.0 && volume <= 4.0 && !smartBoost) {
+    smartBoost = true;
+    showToast('⚡ Smart Boost auto-enabled for clean audio');
+  }
+
+  volume = newVolume;
   updateUI(volume, muted, smartBoost);
   scheduleApply();
 });

@@ -308,11 +308,18 @@ document.querySelectorAll('.preset-btn').forEach(btn => {
 });
 
 // ── Share ─────────────────────────────────────────────────────────────────────
+// Update STORE_URL once the extension is published on the Chrome Web Store.
+// Find it in: Chrome Web Store Developer Dashboard → your extension → Store URL.
+const STORE_URL = '';
 
 btnShare.addEventListener('click', () => {
-  const id  = chrome.runtime.id;
-  const url = `https://chromewebstore.google.com/detail/${id}`;
-  navigator.clipboard.writeText(url).then(() => {
+  if (!STORE_URL) {
+    showToast('Store link coming soon — sharing GitHub for now');
+    navigator.clipboard.writeText('https://github.com/Ravikiran-Kallepally/Volume-Master')
+      .catch(() => {});
+    return;
+  }
+  navigator.clipboard.writeText(STORE_URL).then(() => {
     btnShare.classList.add('copied');
     shareLabelEl.textContent = 'Copied!';
     setTimeout(() => {
@@ -320,8 +327,7 @@ btnShare.addEventListener('click', () => {
       shareLabelEl.textContent = 'Share';
     }, 2000);
   }).catch(() => {
-    // Fallback: open the store page so user can copy from address bar
-    chrome.tabs.create({ url });
+    chrome.tabs.create({ url: STORE_URL });
   });
 });
 

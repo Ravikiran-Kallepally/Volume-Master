@@ -61,6 +61,32 @@ body {
 
 .header-right { display: flex; align-items: center; gap: 8px; }
 
+.btn-share {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px 3px 8px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s;
+  white-space: nowrap;
+}
+.btn-share:hover {
+  background: var(--surface);
+  border-color: rgba(255,255,255,.15);
+  color: var(--text-dim);
+}
+.btn-share.copied {
+  background: rgba(16,185,129,.12);
+  border-color: rgba(16,185,129,.3);
+  color: var(--green);
+}
+
 .saved-badge {
   display: none;
   align-items: center;

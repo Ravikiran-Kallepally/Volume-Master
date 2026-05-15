@@ -19,6 +19,8 @@ const tabCountEl      = $('tab-count');
 const smartBoostRow   = $('smart-boost-row');
 const btnSmartBoost   = $('btn-smart-boost');
 const smartBoostDesc  = $('smart-boost-desc');
+const btnShare        = $('btn-share');
+const shareLabelEl    = $('share-label');
 
 // ── State ─────────────────────────────────────────────────────────────────────
 let currentTab        = null;
@@ -302,6 +304,24 @@ document.querySelectorAll('.preset-btn').forEach(btn => {
     setVolume(parseInt(btn.dataset.v, 10) / 100);
     updateUI(volume, muted, smartBoost);
     applyNow();
+  });
+});
+
+// ── Share ─────────────────────────────────────────────────────────────────────
+
+btnShare.addEventListener('click', () => {
+  const id  = chrome.runtime.id;
+  const url = `https://chromewebstore.google.com/detail/${id}`;
+  navigator.clipboard.writeText(url).then(() => {
+    btnShare.classList.add('copied');
+    shareLabelEl.textContent = 'Copied!';
+    setTimeout(() => {
+      btnShare.classList.remove('copied');
+      shareLabelEl.textContent = 'Share';
+    }, 2000);
+  }).catch(() => {
+    // Fallback: open the store page so user can copy from address bar
+    chrome.tabs.create({ url });
   });
 });
 

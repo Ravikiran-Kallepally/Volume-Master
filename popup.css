@@ -162,6 +162,32 @@ body {
 /* ── Slider ────────────────────────────────────────────────────────────── */
 .slider-wrap { position: relative; }
 
+/* Smart Boost auto-enable threshold marker at 400% (40% of 1000% range) */
+.slider-wrap::after {
+  content: '⚡';
+  position: absolute;
+  left: 40%;
+  top: -18px;
+  transform: translateX(-50%);
+  font-size: 10px;
+  color: rgba(239, 68, 68, 0.55);
+  pointer-events: none;
+  line-height: 1;
+}
+.slider-wrap::before {
+  content: '';
+  position: absolute;
+  left: calc(40% - 1px);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 14px;
+  background: rgba(239, 68, 68, 0.3);
+  border-radius: 1px;
+  pointer-events: none;
+  z-index: 1;
+}
+
 .vol-slider {
   -webkit-appearance: none;
   appearance: none;

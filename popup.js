@@ -310,7 +310,7 @@ document.querySelectorAll('.preset-btn').forEach(btn => {
 // ── Share ─────────────────────────────────────────────────────────────────────
 // Update STORE_URL once the extension is published on the Chrome Web Store.
 // Find it in: Chrome Web Store Developer Dashboard → your extension → Store URL.
-const STORE_URL = '';
+const STORE_URL = 'https://chromewebstore.google.com/detail/fhlnjpnemdhhoejgdelndonecnbeolok';
 
 btnShare.addEventListener('click', () => {
   if (!STORE_URL) {

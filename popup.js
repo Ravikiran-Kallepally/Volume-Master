@@ -3,31 +3,34 @@
 // ── DOM refs ──────────────────────────────────────────────────────────────────
 const $ = id => document.getElementById(id);
 
-const faviconEl      = $('favicon');
-const tabTitleEl     = $('tab-title');
-const volNumEl       = $('vol-num');
-const slider         = $('vol-slider');
-const controlsEl     = $('controls');
-const noAccessEl     = $('no-access');
-const btnMute        = $('btn-mute');
-const muteLabelEl    = $('mute-label');
-const btnReset       = $('btn-reset');
-const btnSave        = $('btn-save');
-const savedBadge     = $('saved-badge');
-const tabsList       = $('tabs-list');
-const tabCountEl     = $('tab-count');
-const smartBoostRow  = $('smart-boost-row');
-const btnSmartBoost  = $('btn-smart-boost');
+const faviconEl       = $('favicon');
+const tabTitleEl      = $('tab-title');
+const volNumEl        = $('vol-num');
+const slider          = $('vol-slider');
+const controlsEl      = $('controls');
+const noAccessEl      = $('no-access');
+const btnMute         = $('btn-mute');
+const muteLabelEl     = $('mute-label');
+const btnReset        = $('btn-reset');
+const btnSave         = $('btn-save');
+const savedBadge      = $('saved-badge');
+const tabsList        = $('tabs-list');
+const tabCountEl      = $('tab-count');
+const smartBoostRow   = $('smart-boost-row');
+const btnSmartBoost   = $('btn-smart-boost');
+const smartBoostDesc  = $('smart-boost-desc');
 
 // ── State ─────────────────────────────────────────────────────────────────────
-let currentTab  = null;
-let volume      = 1.0;
-let muted       = false;
-let smartBoost  = false;
-let hostname    = null;
-let applyTimer  = null;
+let currentTab        = null;
+let volume            = 1.0;
+let muted             = false;
+let smartBoost        = false;
+let smartBoostManual  = null;  // null = auto-managed | true/false = user locked
+let hostname          = null;
+let applyTimer        = null;
 
-const MAX_VOL = 10.0;   // 1000%
+const MAX_VOL      = 10.0;   // 1000%
+const BOOST_THRESH = 4.0;    // 400% — auto Smart Boost threshold
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -44,10 +47,10 @@ function pct(v)  { return Math.round(v * 100); }
 
 function volColor(v) {
   const p = pct(v);
-  if (p <= 100) return '#a78bfa';   // violet  — normal
-  if (p <= 200) return '#10b981';   // green   — mild boost
-  if (p <= 400) return '#f59e0b';   // amber   — high boost
-  return '#ef4444';                  // red     — extreme
+  if (p <= 100) return '#a78bfa';
+  if (p <= 200) return '#10b981';
+  if (p <= 400) return '#f59e0b';
+  return '#ef4444';
 }
 
 function volZone(v) {
@@ -65,20 +68,16 @@ function updateSliderTrack(v) {
 }
 
 function updateUI(v, isMuted, isSmartBoost) {
-  // Number
   volNumEl.textContent = pct(v);
   controlsEl.dataset.zone = volZone(v);
 
-  // Muted state
   document.querySelector('.volume-display').classList.toggle('is-muted', isMuted);
   btnMute.classList.toggle('muted', isMuted);
   muteLabelEl.textContent = isMuted ? 'Unmute' : 'Mute';
 
-  // Slider
   slider.value = pct(v);
   updateSliderTrack(v);
 
-  // Presets
   document.querySelectorAll('.preset-btn').forEach(btn => {
     btn.classList.toggle('active', parseInt(btn.dataset.v, 10) === pct(v));
   });
@@ -86,6 +85,15 @@ function updateUI(v, isMuted, isSmartBoost) {
   // Smart Boost toggle
   smartBoostRow.classList.toggle('active', isSmartBoost);
   btnSmartBoost.setAttribute('aria-pressed', String(isSmartBoost));
+
+  // Subtitle — tells user whether they're in auto or manual mode
+  if (smartBoostManual !== null) {
+    smartBoostDesc.textContent = isSmartBoost
+      ? 'Manually enabled · Reset to restore auto'
+      : 'Manually disabled · Reset to restore auto';
+  } else {
+    smartBoostDesc.textContent = 'Auto-enables at 400% · Toggle anytime';
+  }
 }
 
 function showToast(msg, duration = 1800) {
@@ -99,6 +107,30 @@ function showToast(msg, duration = 1800) {
   t.classList.add('show');
   clearTimeout(t._timer);
   t._timer = setTimeout(() => t.classList.remove('show'), duration);
+}
+
+// ── Smart Boost auto-management ───────────────────────────────────────────────
+
+/**
+ * Applies auto Smart Boost logic for a given volume.
+ * Only runs when no manual override is active.
+ * Returns true if Smart Boost state changed (so caller can show toast).
+ */
+function autoManageSmartBoost(newVolume) {
+  if (smartBoostManual !== null) return; // user is in control — don't interfere
+
+  const shouldBoost = newVolume >= BOOST_THRESH;
+  if (shouldBoost === smartBoost) return; // no change needed
+
+  smartBoost = shouldBoost;
+  if (shouldBoost) showToast('⚡ Smart Boost auto-enabled');
+}
+
+// ── Set volume (shared by slider + presets) ───────────────────────────────────
+
+function setVolume(newVolume) {
+  autoManageSmartBoost(newVolume);
+  volume = newVolume;
 }
 
 // ── Apply (debounced 50 ms) ───────────────────────────────────────────────────
@@ -143,7 +175,6 @@ async function init() {
 
   try { hostname = tab.url ? new URL(tab.url).hostname : null; } catch {}
 
-  // Check for saved site preference
   if (hostname) {
     try {
       const res = await bgMsg({ type: 'GET_SITE_VOLUME', hostname });
@@ -167,6 +198,14 @@ async function init() {
     volume     = state?.volume     ?? 1.0;
     muted      = state?.muted      ?? false;
     smartBoost = state?.smartBoost ?? false;
+
+    // If loaded state is inconsistent with auto-mode, treat it as a manual lock
+    // so the user's saved choice isn't overwritten on the first slider touch.
+    const autoWouldBe = volume >= BOOST_THRESH;
+    if (smartBoost !== autoWouldBe) {
+      smartBoostManual = smartBoost;
+    }
+
     updateUI(volume, muted, smartBoost);
   }
 
@@ -196,8 +235,8 @@ async function loadAudioTabs(currentTabId) {
     const p = pct(t.volume);
     let badgeClass = 'tab-vol-badge';
     let badgeText  = `${p}%`;
-    if (t.muted)    { badgeClass += ' muted';   badgeText = 'Muted'; }
-    else if (p !== 100) badgeClass += ' boosted';
+    if (t.muted)        { badgeClass += ' muted';   badgeText = 'Muted'; }
+    else if (p !== 100) { badgeClass += ' boosted'; }
 
     row.innerHTML = `
       <img class="favicon" src="${t.favIconUrl || ''}" alt="" width="16" height="16"
@@ -226,15 +265,7 @@ function escHtml(str) {
 // ── Event listeners ───────────────────────────────────────────────────────────
 
 slider.addEventListener('input', () => {
-  const newVolume = parseInt(slider.value, 10) / 100;
-
-  // Auto-enable Smart Boost when crossing 400% going up
-  if (newVolume > 4.0 && volume <= 4.0 && !smartBoost) {
-    smartBoost = true;
-    showToast('⚡ Smart Boost auto-enabled for clean audio');
-  }
-
-  volume = newVolume;
+  setVolume(parseInt(slider.value, 10) / 100);
   updateUI(volume, muted, smartBoost);
   scheduleApply();
 });
@@ -246,24 +277,29 @@ btnMute.addEventListener('click', () => {
 });
 
 btnReset.addEventListener('click', () => {
-  volume = 1.0; muted = false;
+  volume           = 1.0;
+  muted            = false;
+  smartBoost       = false;
+  smartBoostManual = null;   // restore auto mode
   updateUI(volume, muted, smartBoost);
   applyNow();
 });
 
 btnSave.addEventListener('click', saveSite);
 
-// Smart Boost — clicking anywhere on the row or the button toggles it
+// Smart Boost manual toggle — locks user's choice until Reset
 smartBoostRow.addEventListener('click', () => {
-  smartBoost = !smartBoost;
+  smartBoost       = !smartBoost;
+  smartBoostManual = smartBoost; // lock to this value
   updateUI(volume, muted, smartBoost);
   applyNow();
 });
 
+// Presets — also run auto Smart Boost logic
 document.querySelectorAll('.preset-btn').forEach(btn => {
   btn.addEventListener('click', () => {
-    volume = parseInt(btn.dataset.v, 10) / 100;
-    muted  = false;
+    muted = false;
+    setVolume(parseInt(btn.dataset.v, 10) / 100);
     updateUI(volume, muted, smartBoost);
     applyNow();
   });

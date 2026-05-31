@@ -555,6 +555,119 @@ body {
   font-size: 12px;
 }
 
+/* ── Share overlay ─────────────────────────────────────────────────────── */
+.share-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(2px);
+}
+.share-overlay.visible { display: flex; }
+
+.share-card {
+  background: #1e1e2e;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  width: 300px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.5);
+}
+
+.share-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.share-card-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.share-card-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.share-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 2px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  transition: color .15s;
+}
+.share-close:hover { color: var(--text); }
+
+.share-icons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.share-icon-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform .15s, opacity .15s;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+.share-icon-btn:hover { transform: scale(1.1); }
+.share-icon-btn:active { transform: scale(.95); opacity: .85; }
+
+.share-url-bar {
+  display: flex;
+  align-items: center;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  gap: 8px;
+}
+
+.share-url-text {
+  flex: 1;
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.share-url-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #60a5fa;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  white-space: nowrap;
+  transition: color .15s;
+  flex-shrink: 0;
+}
+.share-url-copy:hover { color: #93c5fd; }
+.share-url-copy.copied { color: var(--green); }
+
 /* ── Transitions ───────────────────────────────────────────────────────── */
 .volume-num { transition: color .25s ease; }
 .vol-slider { transition: background .1s; }

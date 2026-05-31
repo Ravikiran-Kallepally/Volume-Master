@@ -71,6 +71,18 @@
     }
   }
 
+  // ── Apply audio state (shared by message handler + iframe relay) ──────────
+
+  function applyAudioState(msg) {
+    const boostChanged = (state.smartBoost !== msg.smartBoost);
+    state.volume     = msg.volume;
+    state.muted      = msg.muted;
+    state.smartBoost = msg.smartBoost;
+    if (boostChanged) buildChain();
+    if (state.gain) state.gain.gain.value = state.muted ? 0 : state.volume;
+    scanAndConnect();
+  }
+
   // ── Media element connection ───────────────────────────────────────────────
 
   function connectMedia(el) {
@@ -109,6 +121,19 @@
 
   scanAndConnect();
 
+  // ── Cross-origin iframe relay ──────────────────────────────────────────────
+  // Child frames (e.g. anime site video players) receive volume via postMessage
+  // because chrome.tabs.sendMessage only reaches the main frame.
+  window.addEventListener('message', e => {
+    const msg = e.data?.__vm;
+    if (!msg || msg.type !== 'SET_AUDIO_STATE') return;
+    applyAudioState(msg);
+    // Propagate deeper for nested iframes
+    for (let i = 0; i < window.frames.length; i++) {
+      try { window.frames[i].postMessage(e.data, '*'); } catch {}
+    }
+  });
+
   // ── Message handler ────────────────────────────────────────────────────────
 
   chrome.runtime.onMessage.addListener((msg, _sender, respond) => {
@@ -122,30 +147,14 @@
         respond({ volume: state.volume, muted: state.muted, smartBoost: state.smartBoost });
         return false;
 
-      /**
-       * Single message for all audio state changes.
-       * Only rebuilds the audio chain when Smart Boost actually toggles —
-       * rebuilding on every volume change was breaking Chrome's audio pipeline.
-       */
-      case 'SET_AUDIO_STATE': {
-        const boostChanged = (state.smartBoost !== msg.smartBoost);
-
-        state.volume     = msg.volume;
-        state.muted      = msg.muted;
-        state.smartBoost = msg.smartBoost;
-
-        // Rebuild chain only when necessary
-        if (boostChanged) buildChain();
-
-        // Update gain value directly — no graph rebuild needed
-        if (state.gain) {
-          state.gain.gain.value = state.muted ? 0 : state.volume;
+      case 'SET_AUDIO_STATE':
+        applyAudioState(msg);
+        // Relay to child iframes (anime sites, embedded players, etc.)
+        for (let i = 0; i < window.frames.length; i++) {
+          try { window.frames[i].postMessage({ __vm: msg }, '*'); } catch {}
         }
-
-        scanAndConnect();
         respond({ ok: true });
         return false;
-      }
     }
     return false;
   });

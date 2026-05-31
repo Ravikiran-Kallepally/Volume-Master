@@ -21,6 +21,10 @@ const btnSmartBoost   = $('btn-smart-boost');
 const smartBoostDesc  = $('smart-boost-desc');
 const btnShare        = $('btn-share');
 const shareLabelEl    = $('share-label');
+const shareOverlay    = $('share-overlay');
+const shareClose      = $('share-close');
+const shareUrlDisplay = $('share-url-display');
+const shareUrlCopy    = $('share-url-copy');
 
 // ── State ─────────────────────────────────────────────────────────────────────
 let currentTab        = null;
@@ -307,28 +311,45 @@ document.querySelectorAll('.preset-btn').forEach(btn => {
   });
 });
 
-// ── Share ─────────────────────────────────────────────────────────────────────
-// Update STORE_URL once the extension is published on the Chrome Web Store.
-// Find it in: Chrome Web Store Developer Dashboard → your extension → Store URL.
-const STORE_URL = 'https://chromewebstore.google.com/detail/fhlnjpnemdhhoejgdelndonecnbeolok';
+// ── Share panel ───────────────────────────────────────────────────────────────
+const STORE_URL   = 'https://chromewebstore.google.com/detail/fhlnjpnemdhhoejgdelndonecnbeolok';
+const SHARE_TEXT  = 'Boost your browser volume up to 1000%! Free Chrome extension 🔊';
+const SHARE_TITLE = 'Volume Master — Up to 1000% Volume Boost';
 
-btnShare.addEventListener('click', () => {
-  if (!STORE_URL) {
-    showToast('Store link coming soon — sharing GitHub for now');
-    navigator.clipboard.writeText('https://github.com/Ravikiran-Kallepally/Volume-Master')
-      .catch(() => {});
-    return;
-  }
+function openSharePanel() {
+  shareUrlDisplay.textContent = STORE_URL;
+
+  const url  = encodeURIComponent(STORE_URL);
+  const text = encodeURIComponent(SHARE_TEXT);
+  const title = encodeURIComponent(SHARE_TITLE);
+
+  $('share-linkedin').href  = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
+  $('share-facebook').href  = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+  $('share-reddit').href    = `https://www.reddit.com/submit?url=${url}&title=${title}`;
+  $('share-twitter').href   = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
+  $('share-whatsapp').href  = `https://wa.me/?text=${encodeURIComponent(SHARE_TEXT + ' ' + STORE_URL)}`;
+
+  shareOverlay.classList.add('visible');
+}
+
+btnShare.addEventListener('click', openSharePanel);
+
+shareClose.addEventListener('click', () => shareOverlay.classList.remove('visible'));
+
+// Close on backdrop click
+shareOverlay.addEventListener('click', e => {
+  if (e.target === shareOverlay) shareOverlay.classList.remove('visible');
+});
+
+shareUrlCopy.addEventListener('click', () => {
   navigator.clipboard.writeText(STORE_URL).then(() => {
-    btnShare.classList.add('copied');
-    shareLabelEl.textContent = 'Copied!';
+    shareUrlCopy.classList.add('copied');
+    shareUrlCopy.childNodes[0].textContent = 'Copied!';
     setTimeout(() => {
-      btnShare.classList.remove('copied');
-      shareLabelEl.textContent = 'Share';
+      shareUrlCopy.classList.remove('copied');
+      shareUrlCopy.childNodes[0].textContent = 'Copy';
     }, 2000);
-  }).catch(() => {
-    chrome.tabs.create({ url: STORE_URL });
-  });
+  }).catch(() => chrome.tabs.create({ url: STORE_URL }));
 });
 
 // ── Boot ──────────────────────────────────────────────────────────────────────

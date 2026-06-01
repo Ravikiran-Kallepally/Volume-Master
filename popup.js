@@ -13,7 +13,9 @@ const btnMute         = $('btn-mute');
 const muteLabelEl     = $('mute-label');
 const btnReset        = $('btn-reset');
 const btnSave         = $('btn-save');
-const btnUnsave       = $('btn-unsave');
+const saveLabelEl     = $('save-label');
+const iconSave        = btnSave.querySelector('.icon-save');
+const iconUnsave      = btnSave.querySelector('.icon-unsave');
 const savedBadge      = $('saved-badge');
 const tabsList        = $('tabs-list');
 const tabCountEl      = $('tab-count');
@@ -156,13 +158,20 @@ async function applyNow() {
 
 // ── Per-site save ─────────────────────────────────────────────────────────────
 
+function setSaveState(saved) {
+  btnSave.classList.toggle('unsaved', saved);
+  iconSave.style.display    = saved ? 'none' : '';
+  iconUnsave.style.display  = saved ? '' : 'none';
+  saveLabelEl.textContent   = saved ? 'Unsave' : 'Save for site';
+  if (saved) savedBadge.classList.add('visible');
+  else       savedBadge.classList.remove('visible');
+}
+
 async function saveSite() {
   if (!hostname) return;
   try {
     await bgMsg({ type: 'SAVE_SITE_VOLUME', hostname, volume, smartBoost });
-    savedBadge.classList.add('visible');
-    btnSave.style.display = 'none';
-    btnUnsave.style.display = '';
+    setSaveState(true);
     showToast(`Saved for ${hostname}`);
   } catch {}
 }
@@ -171,9 +180,7 @@ async function unsaveSite() {
   if (!hostname) return;
   try {
     await bgMsg({ type: 'SAVE_SITE_VOLUME', hostname, volume: 1.0, smartBoost: false });
-    savedBadge.classList.remove('visible');
-    btnUnsave.style.display = 'none';
-    btnSave.style.display = '';
+    setSaveState(false);
     showToast(`Removed saved setting for ${hostname}`);
   } catch {}
 }
@@ -196,11 +203,7 @@ async function init() {
   if (hostname) {
     try {
       const res = await bgMsg({ type: 'GET_SITE_VOLUME', hostname });
-      if (res?.saved) {
-        savedBadge.classList.add('visible');
-        btnUnsave.style.display = '';
-        btnSave.style.display = 'none';
-      }
+      if (res?.saved) setSaveState(true);
     } catch {}
   }
 
@@ -308,8 +311,9 @@ btnReset.addEventListener('click', () => {
   applyNow();
 });
 
-btnSave.addEventListener('click', saveSite);
-btnUnsave.addEventListener('click', unsaveSite);
+btnSave.addEventListener('click', () => {
+  btnSave.classList.contains('unsaved') ? unsaveSite() : saveSite();
+});
 
 // Smart Boost manual toggle — locks user's choice until Reset
 smartBoostRow.addEventListener('click', () => {

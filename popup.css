@@ -51,7 +51,8 @@ body {
 
 .logo-text {
   font-weight: 700;
-  font-size: 13px;
+  font-size: 15px;
+  white-space: nowrap;
   letter-spacing: -.2px;
   background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%);
   -webkit-background-clip: text;
@@ -436,15 +437,15 @@ body {
   color: var(--green);
 }
 
-.btn-unsave {
+.btn-save { min-width: 100px; justify-content: center; }
+.btn-save.unsaved {
   color: var(--red);
   border-color: rgba(239,68,68,.25);
   background: rgba(239,68,68,.08);
 }
-.btn-unsave:hover {
+.btn-save.unsaved:hover {
   background: rgba(239,68,68,.15);
   border-color: rgba(239,68,68,.4);
-  color: var(--red);
 }
 
 .btn-reset {

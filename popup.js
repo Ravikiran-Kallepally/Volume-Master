@@ -13,6 +13,7 @@ const btnMute         = $('btn-mute');
 const muteLabelEl     = $('mute-label');
 const btnReset        = $('btn-reset');
 const btnSave         = $('btn-save');
+const btnUnsave       = $('btn-unsave');
 const savedBadge      = $('saved-badge');
 const tabsList        = $('tabs-list');
 const tabCountEl      = $('tab-count');
@@ -159,10 +160,21 @@ async function saveSite() {
   if (!hostname) return;
   try {
     await bgMsg({ type: 'SAVE_SITE_VOLUME', hostname, volume, smartBoost });
-    btnSave.classList.add('saved');
     savedBadge.classList.add('visible');
+    btnSave.style.display = 'none';
+    btnUnsave.style.display = '';
     showToast(`Saved for ${hostname}`);
-    setTimeout(() => btnSave.classList.remove('saved'), 2000);
+  } catch {}
+}
+
+async function unsaveSite() {
+  if (!hostname) return;
+  try {
+    await bgMsg({ type: 'SAVE_SITE_VOLUME', hostname, volume: 1.0, smartBoost: false });
+    savedBadge.classList.remove('visible');
+    btnUnsave.style.display = 'none';
+    btnSave.style.display = '';
+    showToast(`Removed saved setting for ${hostname}`);
   } catch {}
 }
 
@@ -184,7 +196,11 @@ async function init() {
   if (hostname) {
     try {
       const res = await bgMsg({ type: 'GET_SITE_VOLUME', hostname });
-      if (res?.saved) savedBadge.classList.add('visible');
+      if (res?.saved) {
+        savedBadge.classList.add('visible');
+        btnUnsave.style.display = '';
+        btnSave.style.display = 'none';
+      }
     } catch {}
   }
 
@@ -254,8 +270,9 @@ async function loadAudioTabs(currentTabId) {
                   stroke-linecap="round" stroke-linejoin="round"/>
       </svg>`;
 
-    row.addEventListener('click', () => {
-      chrome.tabs.update(t.id, { active: true });
+    row.addEventListener('click', async () => {
+      await chrome.tabs.update(t.id, { active: true });
+      if (t.windowId) chrome.windows.update(t.windowId, { focused: true });
       window.close();
     });
     tabsList.appendChild(row);
@@ -292,6 +309,7 @@ btnReset.addEventListener('click', () => {
 });
 
 btnSave.addEventListener('click', saveSite);
+btnUnsave.addEventListener('click', unsaveSite);
 
 // Smart Boost manual toggle — locks user's choice until Reset
 smartBoostRow.addEventListener('click', () => {
@@ -351,6 +369,25 @@ shareUrlCopy.addEventListener('click', () => {
     }, 2000);
   }).catch(() => chrome.tabs.create({ url: STORE_URL }));
 });
+
+// ── Shortcut sync — poll while popup is open ──────────────────────────────────
+// Keeps the displayed volume in sync when the user uses keyboard shortcuts
+// (Alt+Shift+↑↓M) without closing and reopening the popup.
+setInterval(async () => {
+  if (!currentTab) return;
+  try {
+    const s = await bgMsg({ type: 'GET_TAB_STATE', tabId: currentTab.id });
+    if (!s) return;
+    const changed = s.volume !== volume || s.muted !== muted;
+    if (changed) {
+      volume = s.volume;
+      muted  = s.muted;
+      // Preserve manual smartBoost override; only sync if no manual lock
+      if (smartBoostManual === null) smartBoost = s.smartBoost;
+      updateUI(volume, muted, smartBoost);
+    }
+  } catch {}
+}, 500);
 
 // ── Boot ──────────────────────────────────────────────────────────────────────
 init().catch(console.error);

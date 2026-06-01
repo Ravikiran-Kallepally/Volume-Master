@@ -114,6 +114,7 @@ chrome.runtime.onMessage.addListener((msg, _sender, respond) => {
           .filter(t => t.audible || tabState[t.id])
           .map(t => ({
             id:         t.id,
+            windowId:   t.windowId,
             title:      t.title,
             url:        t.url,
             favIconUrl: t.favIconUrl,

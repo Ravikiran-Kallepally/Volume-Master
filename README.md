@@ -1,12 +1,39 @@
-# Volume Master
+# Volume Master Remastered
 
-> Up to 1000% volume boost for Chrome — with Smart Boost, per-site memory, and keyboard shortcuts.
+> Up to 1000% volume boost for Chrome — Smart Boost compressor, per-site memory, keyboard shortcuts, and social sharing.
 
 [Chrome Web Store](https://chromewebstore.google.com/detail/fhlnjpnemdhhoejgdelndonecnbeolok) · [Privacy Policy](https://ravikiran-kallepally.github.io/Volume-Master/privacy.html)
 
 ---
 
 ## Version History
+
+---
+
+### v2.3.0 — Icon, Unsave, Tab Fix & Shortcut Sync
+> Community feedback from Reddit — quality-of-life improvements
+
+**New icon**
+- Redesigned from scratch with an Apple-quality aesthetic
+- Squircle shape (24% corner radius — iOS standard) replacing the old circle
+- Deep purple → vibrant violet diagonal gradient with subtle white gloss at the top
+- White speaker + cone with soft depth shadow; inner arc full white, outer arc 70% opacity for layering
+- Looks great on both dark and light Chrome toolbars
+
+**Unsave button**
+- "Save for site" now swaps to a red **Unsave** button when a setting is active
+- One click removes the saved preference — no more needing to reset to 100% and re-save
+
+**Audio tab click fix**
+- Clicking a tab in the Audio Tabs list was doing nothing when the tab was in a different Chrome window
+- Now calls `chrome.windows.update({ focused: true })` so the correct window comes to front
+
+**Shortcut sync**
+- Popup now polls every 500 ms while open
+- Volume display updates live when using `Alt+Shift+↑↓M` without closing and reopening
+
+**Rename**
+- Extension renamed to **Volume Master Remastered** in manifest and popup header
 
 ---
 
@@ -33,7 +60,7 @@
 - Auto Smart Boost now also triggers when clicking **presets** (not just the slider)
 - Sliding back **below 400%** now correctly auto-disables Smart Boost (was staying on)
 - Manual toggle **locks** Smart Boost to the user's choice until Reset
-- Subtitle updates dynamically: *"Auto-enables at 400% · Toggle anytime"* → *"Manually enabled · Reset to restore auto"*
+- Subtitle updates dynamically between auto and manual mode
 - Reset button now also clears the manual lock and restores auto-mode
 
 **Critical audio pipeline fix**
@@ -65,7 +92,7 @@
 - Saves your volume preference per hostname using `chrome.storage.local`
 - Automatically restores on every visit — no popup needed
 - Saves Smart Boost state alongside volume
-- Reset at 100% to clear a saved preference
+- Unsave button removes the saved preference in one click
 
 **Keyboard shortcuts**
 - `Alt + Shift + ↑` — Increase volume by 10%
@@ -77,14 +104,16 @@
 - Dark theme with gradient accent
 - Large volume number display
 - Mute toggle (preserves volume setting)
-- Audio tabs list — shows all tabs playing audio with volume badges; click to switch
-- "Save for site" button with bookmark indicator
+- Audio tabs list — shows all tabs playing audio with volume badges; click to switch tabs or windows
+- Save / Unsave buttons for per-site preferences
+- Social share panel (LinkedIn, Facebook, Reddit, X, WhatsApp)
 - Toast notifications for auto-actions
 
 **Architecture**
 - Manifest V3 (service worker background)
-- `content.js` injected programmatically + via manifest into all frames
+- `content.js` injected via manifest into all frames (`all_frames: true`) + programmatically on demand
 - `GainNode → DynamicsCompressor → Destination` audio chain
+- `postMessage` relay for cross-origin iframe volume sync
 - `MutationObserver` + `play` event listener for dynamically added media elements
 
 ---
@@ -92,13 +121,13 @@
 ## File Structure
 
 ```
-Volume Master/
+Volume Master Remastered/
 ├── manifest.json       MV3 manifest — permissions, commands, content scripts
 ├── background.js       Service worker — tab state, site memory, keyboard shortcuts
 ├── content.js          Audio engine — GainNode chain, iframe relay
 ├── popup.html          Popup shell
 ├── popup.css           Dark theme, slider, Smart Boost toggle, share panel
-├── popup.js            UI logic — auto Smart Boost, presets, share panel
+├── popup.js            UI logic — auto Smart Boost, presets, share panel, polling
 ├── icons/              16 · 32 · 48 · 128 px PNGs
 ├── privacy.html        Privacy policy (hosted on GitHub Pages)
 └── USER_MANUAL.txt     Full user guide
@@ -115,5 +144,6 @@ Volume Master/
 | `storage` | Save per-site volume preferences |
 | `scripting` | Programmatically inject content script |
 | `activeTab` | Access current tab info for the popup |
+| `windows` | Focus the correct Chrome window when switching to an audio tab |
 
 No data is collected, transmitted, or stored outside the user's own browser.

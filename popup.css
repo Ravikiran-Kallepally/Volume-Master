@@ -436,6 +436,17 @@ body {
   color: var(--green);
 }
 
+.btn-unsave {
+  color: var(--red);
+  border-color: rgba(239,68,68,.25);
+  background: rgba(239,68,68,.08);
+}
+.btn-unsave:hover {
+  background: rgba(239,68,68,.15);
+  border-color: rgba(239,68,68,.4);
+  color: var(--red);
+}
+
 .btn-reset {
   background: transparent;
   border-color: transparent;

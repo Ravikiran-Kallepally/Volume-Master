@@ -51,7 +51,7 @@ body {
 
 .logo-text {
   font-weight: 700;
-  font-size: 15px;
+  font-size: 13px;
   letter-spacing: -.2px;
   background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%);
   -webkit-background-clip: text;

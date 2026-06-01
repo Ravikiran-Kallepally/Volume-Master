@@ -15,7 +15,8 @@
     volume:     1.0,
     muted:      false,
     smartBoost: false,
-    connected:  new WeakMap(),
+    connected:  new WeakMap(), // elements successfully connected
+    failed:     new WeakSet(), // elements that can't be connected (skip retries)
   };
 
   // ── Audio graph ────────────────────────────────────────────────────────────
@@ -33,42 +34,55 @@
     }
   }
 
+  function tryResume() {
+    if (state.ctx && state.ctx.state === 'suspended') {
+      // Use a void-returning wrapper so rejection never surfaces as unhandled
+      void state.ctx.resume().catch(() => {});
+    }
+  }
+
   /**
-   * Wire the audio graph. Only called when the Smart Boost setting changes,
-   * NOT on every volume update — rebuilding the graph on every change breaks
-   * Chrome's audio pipeline.
+   * Wire the audio graph. Only called when Smart Boost actually toggles —
+   * NOT on every volume update (that caused the audio pipeline to break).
    *
    *   Normal:      GainNode → Destination
    *   Smart Boost: GainNode → DynamicsCompressor → Destination
    */
   function buildChain() {
     if (!state.ctx || !state.gain) return;
+    if (state.ctx.state === 'closed') return; // context invalidated by the page
 
-    try { state.gain.disconnect(); } catch {}
+    try {
+      try { state.gain.disconnect(); } catch {}
 
-    if (state.compressor) {
-      try { state.compressor.disconnect(); } catch {}
+      if (state.compressor) {
+        try { state.compressor.disconnect(); } catch {}
+        state.compressor = null;
+      }
+
+      if (state.smartBoost) {
+        const c = state.ctx.createDynamicsCompressor();
+        c.threshold.value = -6;    // dB — engage only near peaks
+        c.knee.value      = 3;     // dB — smooth onset
+        c.ratio.value     = 20;    // 20:1 ≈ hard limiter
+        c.attack.value    = 0.003; // 3 ms
+        c.release.value   = 0.25;  // 250 ms
+        state.compressor  = c;
+        state.gain.connect(c);
+        c.connect(state.ctx.destination);
+      } else {
+        state.gain.connect(state.ctx.destination);
+      }
+    } catch {
+      // Context was closed or invalidated by the host page (e.g. YouTube
+      // tearing down its own AudioContext). Reset so ensureContext rebuilds.
+      state.ctx        = null;
+      state.gain       = null;
       state.compressor = null;
+      return;
     }
 
-    if (state.smartBoost) {
-      const c = state.ctx.createDynamicsCompressor();
-      c.threshold.value = -6;    // dB  — engage only near peaks
-      c.knee.value      = 3;     // dB  — smooth onset
-      c.ratio.value     = 20;    // 20:1 ≈ hard limiter
-      c.attack.value    = 0.003; // 3 ms
-      c.release.value   = 0.25;  // 250 ms
-      state.compressor  = c;
-      state.gain.connect(c);
-      c.connect(state.ctx.destination);
-    } else {
-      state.gain.connect(state.ctx.destination);
-    }
-
-    // Ensure context is running after every graph change
-    if (state.ctx.state === 'suspended') {
-      state.ctx.resume().catch(() => {});
-    }
+    tryResume();
   }
 
   // ── Apply audio state (shared by message handler + iframe relay) ──────────
@@ -86,18 +100,21 @@
   // ── Media element connection ───────────────────────────────────────────────
 
   function connectMedia(el) {
-    if (!el || state.connected.has(el)) return;
+    if (!el) return;
+    if (state.connected.has(el)) return;
+    if (state.failed.has(el))    return; // already tried and failed — stop retrying
     if (!(el instanceof HTMLMediaElement)) return;
     if (!ensureContext()) return;
+
     try {
       const src = state.ctx.createMediaElementSource(el);
       src.connect(state.gain);
       state.connected.set(el, src);
-      if (state.ctx.state === 'suspended') {
-        state.ctx.resume().catch(() => {});
-      }
+      tryResume();
     } catch {
-      // Cross-origin or already owned by another AudioContext
+      // Element is cross-origin or already owned by another AudioContext
+      // (common on YouTube). Mark as failed so we don't spam retries.
+      state.failed.add(el);
     }
   }
 
@@ -122,13 +139,10 @@
   scanAndConnect();
 
   // ── Cross-origin iframe relay ──────────────────────────────────────────────
-  // Child frames (e.g. anime site video players) receive volume via postMessage
-  // because chrome.tabs.sendMessage only reaches the main frame.
   window.addEventListener('message', e => {
     const msg = e.data?.__vm;
     if (!msg || msg.type !== 'SET_AUDIO_STATE') return;
     applyAudioState(msg);
-    // Propagate deeper for nested iframes
     for (let i = 0; i < window.frames.length; i++) {
       try { window.frames[i].postMessage(e.data, '*'); } catch {}
     }
@@ -149,7 +163,6 @@
 
       case 'SET_AUDIO_STATE':
         applyAudioState(msg);
-        // Relay to child iframes (anime sites, embedded players, etc.)
         for (let i = 0; i < window.frames.length; i++) {
           try { window.frames[i].postMessage({ __vm: msg }, '*'); } catch {}
         }

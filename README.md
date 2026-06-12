@@ -10,6 +10,19 @@
 
 ---
 
+### v2.4.0 — Unified EQ-Bars Branding
+> Consistent visual identity across toolbar, popup, and store
+
+**New unified icon**
+- Replaced the toolbar icon with a clean EQ-bars mark on a seam-free diagonal gradient (deep indigo → vibrant violet) with a subtle top sheen
+- Regenerated all sizes (16 / 32 / 48 / 128 px)
+- Swapped the popup header logo from the old speaker symbol to the matching EQ-bars mark — the brand mark is now identical in the toolbar, popup, and Chrome Web Store listing
+
+**Store presence**
+- Added a purpose-built branded hero tile (1280×800) leading with the icon + "1000%" claim, replacing the raw app screenshot as the first store image
+
+---
+
 ### v2.3.0 — Icon, Unsave, Tab Fix & Shortcut Sync
 > Community feedback from Reddit — quality-of-life improvements
 

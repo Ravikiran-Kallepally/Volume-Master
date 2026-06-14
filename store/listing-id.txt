@@ -1,0 +1,26 @@
+Penguat volume dan suara untuk Chrome. Tingkatkan volume hingga 1000% dengan kompresor Smart Boost, memori per situs, dan kontrol per tab.
+
+Volume Master adalah penguat volume yang memberi Anda kendali penuh atas audio di Chrome: naikkan volume tab mana pun dari senyap hingga 1000%, terlepas dari volume sistem Anda. Penguat suara yang Anda butuhkan saat video terlalu pelan.
+
+Geser slider, pilih preset (50 / 100 / 200 / 400 / 1000%), atau gunakan pintasan keyboard. Setiap tab punya levelnya sendiri. Bisukan satu tab tanpa mengganggu yang lain.
+
+🔊 𝐒𝐦𝐚𝐫𝐭 𝐁𝐨𝐨𝐬𝐭 :
+Di atas 400%, penguat otomatis mengaktifkan kompresor yang menahan puncak suara keras sebelum pecah. Anda mendapat audio yang benar-benar lebih keras, bukan sekadar bising. Matikan kapan saja.
+
+💾 𝐌𝐞𝐦𝐨𝐫𝐢 𝐩𝐞𝐫 𝐬𝐢𝐭𝐮𝐬 :
+Simpan volume untuk situs mana pun dan akan otomatis dipulihkan setiap kunjungan, tanpa membuka popup. Preferensi Smart Boost ikut tersimpan.
+
+⌨️ 𝐏𝐢𝐧𝐭𝐚𝐬𝐚𝐧 𝐤𝐞𝐲𝐛𝐨𝐚𝐫𝐝 :
+Alt+Shift+↑ / ↓ — naikkan atau turunkan volume 10%
+Alt+Shift+M — bisukan
+(Dapat diubah di chrome://extensions/shortcuts)
+
+📤 𝐁𝐚𝐠𝐢𝐤𝐚𝐧 :
+Kirim ekstensi ke teman langsung dari popup via WhatsApp, Reddit, X, Facebook, atau LinkedIn, atau salin tautannya.
+
+🔒 𝐈𝐳𝐢𝐧 :
+Izin luas diperlukan untuk terhubung ke audio setiap halaman. Tidak ada konten yang dibaca. Tidak ada yang dikumpulkan atau dikirim.
+
+Gratis. Tanpa iklan. Tanpa pelacakan.
+
+Dibuat dengan ❤️ oleh ravikirankallepally.

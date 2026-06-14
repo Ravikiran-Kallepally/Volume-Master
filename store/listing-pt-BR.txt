@@ -1,0 +1,26 @@
+Amplificador de volume e som para o Chrome. Aumente o volume até 1000% com o compressor Smart Boost, memória por site e controle por aba.
+
+O Volume Master é um amplificador de volume que coloca você no controle do áudio no Chrome: aumente qualquer aba do silêncio até 1000%, independentemente do volume do sistema. O amplificador de som que você precisa quando os vídeos estão baixos demais.
+
+Arraste o controle, escolha um preset (50 / 100 / 200 / 400 / 1000%) ou use atalhos de teclado. Cada aba tem seu próprio nível. Silencie uma aba sem mexer nas outras.
+
+🔊 𝐒𝐦𝐚𝐫𝐭 𝐁𝐨𝐨𝐬𝐭 :
+Acima de 400%, o amplificador ativa automaticamente um compressor que controla os picos altos antes de distorcerem. Você ouve um áudio realmente mais alto, não só barulho. Desligue quando quiser.
+
+💾 𝐌𝐞𝐦ó𝐫𝐢𝐚 𝐩𝐨𝐫 𝐬𝐢𝐭𝐞 :
+Salve um volume para qualquer site e ele é restaurado automaticamente a cada visita, sem abrir a janela. Sua preferência de Smart Boost também é salva.
+
+⌨️ 𝐀𝐭𝐚𝐥𝐡𝐨𝐬 𝐝𝐞 𝐭𝐞𝐜𝐥𝐚𝐝𝐨 :
+Alt+Shift+↑ / ↓ — aumentar ou diminuir o volume em 10%
+Alt+Shift+M — silenciar
+(Personalizáveis em chrome://extensions/shortcuts)
+
+📤 𝐂𝐨𝐦𝐩𝐚𝐫𝐭𝐢𝐥𝐡𝐚𝐫 :
+Envie a extensão para amigos pela janela via WhatsApp, Reddit, X, Facebook ou LinkedIn, ou copie o link.
+
+🔒 𝐏𝐞𝐫𝐦𝐢𝐬𝐬õ𝐞𝐬 :
+A permissão ampla é necessária para conectar ao áudio de cada página. Nenhum conteúdo é lido. Nada é coletado nem enviado.
+
+Grátis. Sem anúncios. Sem rastreamento.
+
+Feito com ❤️ por ravikirankallepally.

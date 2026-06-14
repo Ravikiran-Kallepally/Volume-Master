@@ -10,6 +10,24 @@
 
 ---
 
+### v2.6.0 — Rate Us Nudge
+> A polite, non-intrusive way to ask happy users for a review
+
+- Added a small "Enjoying Volume Master?" card at the bottom of the popup
+- Shows **only after the popup has been opened 5+ times** (engaged users only)
+- "Rate it" opens the Chrome Web Store reviews page; "Maybe later" snoozes for 7 more opens; the × dismisses for good
+- Never shown again once rated or dismissed — no nagging
+
+---
+
+### v2.5.0 — Localized Store Listing
+> Rank in more language markets
+
+- Added `default_locale` and `_locales/` message files for Spanish, Portuguese (BR), Indonesian, and Hindi
+- Store summary (short description) now localizes per language, unlocking the Chrome Web Store listing language dropdown
+
+---
+
 ### v2.4.0 — Unified EQ-Bars Branding
 > Consistent visual identity across toolbar, popup, and store
 

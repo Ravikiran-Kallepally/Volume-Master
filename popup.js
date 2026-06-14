@@ -374,6 +374,54 @@ shareUrlCopy.addEventListener('click', () => {
   }).catch(() => chrome.tabs.create({ url: STORE_URL }));
 });
 
+// ── Rate us nudge ─────────────────────────────────────────────────────────────
+// Asks only people who've opened the popup a handful of times, asks once,
+// snoozes politely on "Maybe later", and never nags after Rate/dismiss.
+const REVIEW_URL       = `${STORE_URL}/reviews`;
+const RATE_MIN_USES    = 5;   // only prompt engaged users
+const RATE_SNOOZE_STEP = 7;   // "Maybe later" → ask again after this many more opens
+
+const rateCard  = $('rate-card');
+const rateClose = $('rate-close');
+const rateNow   = $('rate-now');
+const rateLater = $('rate-later');
+
+async function maybeShowRatePrompt() {
+  let store;
+  try {
+    store = await chrome.storage.local.get(['vm_uses', 'vm_rate_done', 'vm_rate_snooze']);
+  } catch { return; }
+
+  if (store.vm_rate_done) return;            // already rated or dismissed for good
+
+  const uses = (store.vm_uses || 0) + 1;
+  chrome.storage.local.set({ vm_uses: uses });
+
+  const showAt = store.vm_rate_snooze || RATE_MIN_USES;
+  if (uses >= showAt) rateCard.hidden = false;
+}
+
+function hideRate(permanent) {
+  rateCard.hidden = true;
+  if (permanent) chrome.storage.local.set({ vm_rate_done: true });
+}
+
+rateNow.addEventListener('click', () => {
+  chrome.tabs.create({ url: REVIEW_URL });
+  hideRate(true);
+  window.close();
+});
+
+rateLater.addEventListener('click', async () => {
+  const { vm_uses = 0 } = await chrome.storage.local.get('vm_uses');
+  chrome.storage.local.set({ vm_rate_snooze: vm_uses + RATE_SNOOZE_STEP });
+  hideRate(false);
+});
+
+rateClose.addEventListener('click', () => hideRate(true)); // × = don't ask again
+
+maybeShowRatePrompt();
+
 // ── Shortcut sync — poll while popup is open ──────────────────────────────────
 // Keeps the displayed volume in sync when the user uses keyboard shortcuts
 // (Alt+Shift+↑↓M) without closing and reopening the popup.

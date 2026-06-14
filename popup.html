@@ -198,6 +198,25 @@
       <div class="tabs-list" id="tabs-list"></div>
     </section>
 
+    <!-- ── Rate us nudge (shown only after repeated use) ─ -->
+    <div class="rate-card" id="rate-card" hidden>
+      <button class="rate-close" id="rate-close" title="Dismiss" aria-label="Dismiss">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2.5" stroke-linecap="round">
+          <line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/>
+        </svg>
+      </button>
+      <div class="rate-stars" aria-hidden="true">★★★★★</div>
+      <div class="rate-text">
+        <strong>Enjoying Volume Master?</strong>
+        <span>A quick rating really helps it grow 🙏</span>
+      </div>
+      <div class="rate-actions">
+        <button class="btn rate-now" id="rate-now">Rate it</button>
+        <button class="rate-later" id="rate-later">Maybe later</button>
+      </div>
+    </div>
+
   </div><!-- .app -->
   <script src="popup.js"></script>
 </body>

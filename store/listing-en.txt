@@ -1,0 +1,34 @@
+Volume Booster & Sound Booster for Chrome. Increase volume up to 1000% with Smart Boost compressor, per-site memory, and per-tab control.
+
+Volume Master is a volume booster that puts you in control of audio in Chrome, boosts any tab from silence to 1000%, independently of your system volume. The sound booster you need when videos are just too quiet.
+
+Drag the slider, pick a preset (50 / 100 / 200 / 400 / 1000%), or use keyboard shortcuts. Each tab has its own level. Mute one tab without touching the others.
+
+🔊 𝐒𝐦𝐚𝐫𝐭 𝐁𝐨𝐨𝐬𝐭 :
+Above 400%, the volume booster automatically switches on a compressor that catches loud peaks before they distort. You get genuinely louder audio, not just harsher noise. Toggle it off anytime if you prefer the raw signal.
+
+💾 𝐏𝐞𝐫-𝐬𝐢𝐭𝐞 𝐦𝐞𝐦𝐨𝐫𝐲 :
+Save a volume for any website and it restores automatically every visit — no popup needed. Your Smart Boost preference saves alongside it.
+
+⌨️ 𝐊𝐞𝐲𝐛𝐨𝐚𝐫𝐝 𝐬𝐡𝐨𝐫𝐭𝐜𝐮𝐭𝐬 :
+Alt+Shift+↑ / ↓ — volume up or down 10%
+Alt+Shift+M — mute toggle
+(All remappable via chrome://extensions/shortcuts)
+
+📤 𝐒𝐡𝐚𝐫𝐞 :
+Send the extension to friends directly from the popup via WhatsApp, Reddit, X, Facebook, or LinkedIn — or just copy the link.
+
+✨ 𝐖𝐡𝐚𝐭'𝐬 𝐧𝐞𝐰 :
+v2.5 — Now available in Spanish, Portuguese, Hindi, and Indonesian.
+v2.4 — Fresh, unified icon and a cleaner, more consistent look across the toolbar, popup, and store.
+v2.3 — Cleaner icon, smoother UI, bug fixes from user feedback.
+v2.2 — Anime and streaming sites with embedded video players now work. Social share panel.
+v2.1 — Smart Boost auto-mode fixed. Audio pipeline crash on fast slider drags fixed.
+v2.0 — First release. 1000% boost, Smart Boost, per-site memory, keyboard shortcuts.
+
+🔒 𝐏𝐞𝐫𝐦𝐢𝐬𝐬𝐢𝐨𝐧𝐬 :
+The broad permission is needed to connect to each page's audio pipeline. No page content is read. Nothing is collected or sent anywhere.
+
+Free. No ads. No tracking. The volume booster Chrome should've shipped with.
+
+Made with ❤️ by ravikirankallepally.

@@ -1,0 +1,26 @@
+Trình tăng âm lượng và khuếch đại âm thanh cho Chrome. Tăng âm lượng lên đến 1000% với bộ nén Smart Boost, ghi nhớ theo trang và điều khiển từng tab.
+
+Volume Master là trình tăng âm lượng giúp bạn kiểm soát âm thanh trong Chrome: tăng âm lượng của bất kỳ tab nào từ im lặng lên đến 1000%, độc lập với âm lượng hệ thống. Trình khuếch đại âm thanh bạn cần khi video quá nhỏ.
+
+Kéo thanh trượt, chọn cài đặt sẵn (50 / 100 / 200 / 400 / 1000%) hoặc dùng phím tắt. Mỗi tab có mức riêng. Tắt tiếng một tab mà không ảnh hưởng các tab khác.
+
+🔊 𝐒𝐦𝐚𝐫𝐭 𝐁𝐨𝐨𝐬𝐭 :
+Trên 400%, trình tăng âm tự động bật bộ nén để kiểm soát các đỉnh âm lớn trước khi méo tiếng. Bạn có được âm thanh thực sự lớn hơn, không phải tiếng ồn. Tắt bất cứ lúc nào.
+
+💾 𝐆𝐡𝐢 𝐧𝐡ớ 𝐭𝐡𝐞𝐨 𝐭𝐫𝐚𝐧𝐠 :
+Lưu mức âm lượng cho bất kỳ trang web nào và nó tự động được khôi phục mỗi lần truy cập, không cần mở cửa sổ. Tùy chọn Smart Boost của bạn cũng được lưu cùng.
+
+⌨️ 𝐏𝐡í𝐦 𝐭ắ𝐭 :
+Alt+Shift+↑ / ↓ — tăng hoặc giảm âm lượng 10%
+Alt+Shift+M — tắt tiếng
+(Có thể tùy chỉnh tại chrome://extensions/shortcuts)
+
+📤 𝐂𝐡𝐢𝐚 𝐬ẻ :
+Gửi tiện ích cho bạn bè trực tiếp từ cửa sổ qua WhatsApp, Reddit, X, Facebook hoặc LinkedIn, hoặc sao chép liên kết.
+
+🔒 𝐐𝐮𝐲ề𝐧 :
+Quyền rộng là cần thiết để kết nối với âm thanh của mỗi trang. Không có nội dung trang nào được đọc. Không có gì được thu thập hoặc gửi đi.
+
+Miễn phí. Không quảng cáo. Không theo dõi.
+
+Được tạo với ❤️ bởi ravikirankallepally.

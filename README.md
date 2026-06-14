@@ -10,6 +10,15 @@
 
 ---
 
+### v2.7.0 — More Languages
+> Five more localized markets
+
+- Added `_locales/` for French, German, Turkish, Vietnamese, and Russian
+- Store listing now localized in 10 languages total (en, es, pt-BR, hi, id, fr, de, tr, vi, ru)
+- Canonical bolded descriptions saved in `store/listing-<lang>.txt`
+
+---
+
 ### v2.6.0 — Rate Us Nudge
 > A polite, non-intrusive way to ask happy users for a review
 

@@ -1,0 +1,26 @@
+Chrome için ses yükseltici ve ses güçlendirici. Smart Boost kompresörü, site bazlı hafıza ve sekme başına kontrol ile sesi %1000'e kadar artırın.
+
+Volume Master, Chrome'da sesin kontrolünü size veren bir ses yükselticidir: herhangi bir sekmeyi sessizlikten %1000'e kadar yükseltin, sistem sesinden bağımsız olarak. Videolar çok kısık olduğunda ihtiyacınız olan ses güçlendirici.
+
+Kaydırıcıyı sürükleyin, bir ön ayar seçin (50 / 100 / 200 / 400 / 1000%) veya klavye kısayollarını kullanın. Her sekmenin kendi seviyesi vardır. Diğerlerine dokunmadan bir sekmeyi sessize alın.
+
+🔊 𝐒𝐦𝐚𝐫𝐭 𝐁𝐨𝐨𝐬𝐭 :
+%400'ün üzerinde yükseltici, yüksek tepe noktalarını bozulmadan önce yakalayan bir kompresörü otomatik olarak devreye sokar. Sadece gürültü değil, gerçekten daha yüksek ses elde edersiniz. İstediğiniz zaman kapatın.
+
+💾 𝐒𝐢𝐭𝐞 𝐛𝐚𝐳𝐥ı 𝐡𝐚𝐟ı𝐳𝐚 :
+Herhangi bir web sitesi için bir ses seviyesi kaydedin; her ziyarette pencereyi açmadan otomatik olarak geri yüklenir. Smart Boost tercihiniz de birlikte kaydedilir.
+
+⌨️ 𝐊𝐥𝐚𝐯𝐲𝐞 𝐤ı𝐬𝐚𝐲𝐨𝐥𝐥𝐚𝐫ı :
+Alt+Shift+↑ / ↓ — sesi %10 artır veya azalt
+Alt+Shift+M — sessize al
+(chrome://extensions/shortcuts üzerinden özelleştirilebilir)
+
+📤 𝐏𝐚𝐲𝐥𝐚ş :
+Uzantıyı pencereden doğrudan WhatsApp, Reddit, X, Facebook veya LinkedIn ile arkadaşlarınıza gönderin ya da bağlantıyı kopyalayın.
+
+🔒 İ𝐳𝐢𝐧𝐥𝐞𝐫 :
+Geniş izin, her sayfanın sesine bağlanmak için gereklidir. Hiçbir sayfa içeriği okunmaz. Hiçbir şey toplanmaz veya gönderilmez.
+
+Ücretsiz. Reklam yok. Takip yok.
+
+❤️ ile ravikirankallepally tarafından yapıldı.

@@ -1,0 +1,26 @@
+Lautstärke-Verstärker und Sound Booster für Chrome. Erhöhe die Lautstärke mit dem Smart-Boost-Kompressor auf bis zu 1000% — mit Speicher pro Website und Steuerung pro Tab.
+
+Volume Master ist ein Lautstärke-Verstärker, der dir die Kontrolle über den Ton in Chrome gibt: Hebe jeden Tab von Stille auf bis zu 1000% an, unabhängig von deiner Systemlautstärke. Der Sound Booster, den du brauchst, wenn Videos einfach zu leise sind.
+
+Zieh den Regler, wähle eine Voreinstellung (50 / 100 / 200 / 400 / 1000%) oder nutze Tastenkürzel. Jeder Tab hat seine eigene Stufe. Schalte einen Tab stumm, ohne die anderen zu berühren.
+
+🔊 𝐒𝐦𝐚𝐫𝐭 𝐁𝐨𝐨𝐬𝐭 :
+Über 400% schaltet der Verstärker automatisch einen Kompressor ein, der laute Spitzen abfängt, bevor sie verzerren. Du bekommst echten lauteren Klang, nicht nur Lärm. Jederzeit abschaltbar.
+
+💾 𝐒𝐩𝐞𝐢𝐜𝐡𝐞𝐫 𝐩𝐫𝐨 𝐖𝐞𝐛𝐬𝐢𝐭𝐞 :
+Speichere eine Lautstärke für eine beliebige Website, und sie wird bei jedem Besuch automatisch wiederhergestellt — ohne das Fenster zu öffnen. Deine Smart-Boost-Einstellung wird mitgespeichert.
+
+⌨️ 𝐓𝐚𝐬𝐭𝐞𝐧𝐤ü𝐫𝐳𝐞𝐥 :
+Alt+Shift+↑ / ↓ — Lautstärke um 10% erhöhen oder verringern
+Alt+Shift+M — stummschalten
+(Anpassbar unter chrome://extensions/shortcuts)
+
+📤 𝐓𝐞𝐢𝐥𝐞𝐧 :
+Sende die Erweiterung direkt aus dem Fenster an Freunde über WhatsApp, Reddit, X, Facebook oder LinkedIn, oder kopiere den Link.
+
+🔒 𝐁𝐞𝐫𝐞𝐜𝐡𝐭𝐢𝐠𝐮𝐧𝐠𝐞𝐧 :
+Die weitreichende Berechtigung wird benötigt, um sich mit dem Audio jeder Seite zu verbinden. Es werden keine Seiteninhalte gelesen. Es wird nichts erfasst oder gesendet.
+
+Kostenlos. Keine Werbung. Kein Tracking.
+
+Mit ❤️ erstellt von ravikirankallepally.

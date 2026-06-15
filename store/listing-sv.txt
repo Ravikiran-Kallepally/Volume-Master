@@ -1,0 +1,26 @@
+Volymförstärkare och ljudförstärkare för Chrome. Höj volymen upp till 1000% med Smart Boost-kompressorn, minne per webbplats och kontroll per flik.
+
+Volume Master är en volymförstärkare som ger dig kontroll över ljudet i Chrome: höj valfri flik från tystnad upp till 1000%, oberoende av systemvolymen. Ljudförstärkaren du behöver när videor är för tysta.
+
+Dra i reglaget, välj en förinställning (50 / 100 / 200 / 400 / 1000%) eller använd kortkommandon. Varje flik har sin egen nivå. Tysta en flik utan att röra de andra.
+
+🔊 𝐒𝐦𝐚𝐫𝐭 𝐁𝐨𝐨𝐬𝐭 :
+Över 400% slår förstärkaren automatiskt på en kompressor som fångar höga toppar innan de förvrängs. Du får verkligen starkare ljud, inte bara brus. Stäng av det när du vill.
+
+💾 𝐌𝐢𝐧𝐧𝐞 𝐩𝐞𝐫 𝐰𝐞𝐛𝐛𝐩𝐥𝐚𝐭𝐬 :
+Spara en volym för valfri webbplats så återställs den automatiskt vid varje besök, utan att öppna fönstret. Din Smart Boost-inställning sparas också.
+
+⌨️ 𝐊𝐨𝐫𝐭𝐤𝐨𝐦𝐦𝐚𝐧𝐝𝐨𝐧 :
+Alt+Shift+↑ / ↓ — höj eller sänk volymen med 10%
+Alt+Shift+M — tysta
+(Kan anpassas i chrome://extensions/shortcuts)
+
+📤 𝐃𝐞𝐥𝐚 :
+Skicka tillägget till vänner direkt från fönstret via WhatsApp, Reddit, X, Facebook eller LinkedIn, eller kopiera länken.
+
+🔒 𝐁𝐞𝐡ö𝐫𝐢𝐠𝐡𝐞𝐭𝐞𝐫 :
+Den breda behörigheten behövs för att ansluta till ljudet på varje sida. Inget sidinnehåll läses. Inget samlas in eller skickas.
+
+Gratis. Inga annonser. Ingen spårning.
+
+Skapad med ❤️ av ravikirankallepally.

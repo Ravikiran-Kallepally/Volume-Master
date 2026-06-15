@@ -1,0 +1,26 @@
+Volume booster at sound booster para sa Chrome. Lakasan ang volume hanggang 1000% gamit ang Smart Boost compressor, memory bawat site at kontrol bawat tab.
+
+Ang Volume Master ay isang volume booster na nagbibigay sa iyo ng kontrol sa audio sa Chrome: lakasan ang kahit anong tab mula katahimikan hanggang 1000%, hiwalay sa volume ng iyong system. Ang sound booster na kailangan mo kapag masyadong mahina ang mga video.
+
+I-drag ang slider, pumili ng preset (50 / 100 / 200 / 400 / 1000%) o gumamit ng mga keyboard shortcut. May sariling antas ang bawat tab. I-mute ang isang tab nang hindi ginagalaw ang iba.
+
+🔊 𝐒𝐦𝐚𝐫𝐭 𝐁𝐨𝐨𝐬𝐭 :
+Lampas sa 400%, awtomatikong binubuksan ng booster ang isang compressor na pumipigil sa malalakas na peak bago ito ma-distort. Nakakakuha ka ng tunay na mas malakas na audio, hindi lang ingay. I-off ito kahit kailan.
+
+💾 𝐌𝐞𝐦𝐨𝐫𝐲 𝐛𝐚𝐰𝐚𝐭 𝐬𝐢𝐭𝐞 :
+Mag-save ng volume para sa kahit anong website at awtomatiko itong babalik sa bawat pagbisita, nang hindi binubuksan ang window. Naka-save din ang iyong Smart Boost preference.
+
+⌨️ 𝐌𝐠𝐚 𝐤𝐞𝐲𝐛𝐨𝐚𝐫𝐝 𝐬𝐡𝐨𝐫𝐭𝐜𝐮𝐭 :
+Alt+Shift+↑ / ↓ — taasan o babaan ang volume ng 10%
+Alt+Shift+M — i-mute
+(Maaaring i-customize sa chrome://extensions/shortcuts)
+
+📤 𝐈𝐛𝐚𝐡𝐚𝐠𝐢 :
+Ipadala ang extension sa mga kaibigan direkta mula sa window via WhatsApp, Reddit, X, Facebook o LinkedIn, o kopyahin ang link.
+
+🔒 𝐌𝐠𝐚 𝐩𝐚𝐡𝐢𝐧𝐭𝐮𝐥𝐨𝐭 :
+Kailangan ang malawak na pahintulot para kumonekta sa audio ng bawat page. Walang nilalaman ng page na binabasa. Walang kinokolekta o ipinapadala.
+
+Libre. Walang ad. Walang tracking.
+
+Ginawa nang may ❤️ ni ravikirankallepally.

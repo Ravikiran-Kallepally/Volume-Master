@@ -1,0 +1,26 @@
+Volumeversterker en geluidsversterker voor Chrome. Verhoog het volume tot 1000% met de Smart Boost-compressor, geheugen per site en bediening per tabblad.
+
+Volume Master is een volumeversterker die je de controle geeft over audio in Chrome: zet elk tabblad van stilte tot 1000% harder, onafhankelijk van je systeemvolume. De geluidsversterker die je nodig hebt als video's gewoon te zacht zijn.
+
+Sleep de schuifregelaar, kies een voorinstelling (50 / 100 / 200 / 400 / 1000%) of gebruik sneltoetsen. Elk tabblad heeft zijn eigen niveau. Demp één tabblad zonder de andere aan te raken.
+
+🔊 𝐒𝐦𝐚𝐫𝐭 𝐁𝐨𝐨𝐬𝐭 :
+Boven 400% schakelt de versterker automatisch een compressor in die luide pieken opvangt voordat ze vervormen. Je krijgt echt luider geluid, niet alleen meer lawaai. Schakel het uit wanneer je wilt.
+
+💾 𝐆𝐞𝐡𝐞𝐮𝐠𝐞𝐧 𝐩𝐞𝐫 𝐬𝐢𝐭𝐞 :
+Sla een volume op voor elke website en het wordt automatisch hersteld bij elk bezoek, zonder het venster te openen. Je Smart Boost-voorkeur wordt mee opgeslagen.
+
+⌨️ 𝐒𝐧𝐞𝐥𝐭𝐨𝐞𝐭𝐬𝐞𝐧 :
+Alt+Shift+↑ / ↓ — volume 10% omhoog of omlaag
+Alt+Shift+M — dempen
+(Aan te passen via chrome://extensions/shortcuts)
+
+📤 𝐃𝐞𝐥𝐞𝐧 :
+Stuur de extensie rechtstreeks vanuit het venster naar vrienden via WhatsApp, Reddit, X, Facebook of LinkedIn, of kopieer de link.
+
+🔒 𝐌𝐚𝐜𝐡𝐭𝐢𝐠𝐢𝐧𝐠𝐞𝐧 :
+De brede machtiging is nodig om verbinding te maken met de audio van elke pagina. Er wordt geen pagina-inhoud gelezen. Er wordt niets verzameld of verzonden.
+
+Gratis. Geen advertenties. Geen tracking.
+
+Gemaakt met ❤️ door ravikirankallepally.

@@ -4,6 +4,9 @@ Volume Master is a volume booster that puts you in control of audio in Chrome, b
 
 Drag the slider, pick a preset (50 / 100 / 200 / 400 / 1000%), or use keyboard shortcuts. Each tab has its own level. Mute one tab without touching the others.
 
+🎧 𝐖𝐨𝐫𝐤𝐬 𝐨𝐧 𝐞𝐯𝐞𝐫𝐲 𝐬𝐢𝐭𝐞 :
+A volume booster and audio booster for YouTube, Netflix, Spotify, Twitch, Zoom, Google Meet, podcasts, and online courses — any video, music, or call that's too quiet. Make it louder with a single click.
+
 🔊 𝐒𝐦𝐚𝐫𝐭 𝐁𝐨𝐨𝐬𝐭 :
 Above 400%, the volume booster automatically switches on a compressor that catches loud peaks before they distort. You get genuinely louder audio, not just harsher noise. Toggle it off anytime if you prefer the raw signal.
 
@@ -19,9 +22,10 @@ Alt+Shift+M — mute toggle
 Send the extension to friends directly from the popup via WhatsApp, Reddit, X, Facebook, or LinkedIn — or just copy the link.
 
 ✨ 𝐖𝐡𝐚𝐭'𝐬 𝐧𝐞𝐰 :
-v2.5 — Now available in Spanish, Portuguese, Hindi, and Indonesian.
+v2.8 — Now available in 24 languages.
+v2.6 — Polite "rate us" prompt for happy users.
+v2.5 — Localized store listing.
 v2.4 — Fresh, unified icon and a cleaner, more consistent look across the toolbar, popup, and store.
-v2.3 — Cleaner icon, smoother UI, bug fixes from user feedback.
 v2.2 — Anime and streaming sites with embedded video players now work. Social share panel.
 v2.1 — Smart Boost auto-mode fixed. Audio pipeline crash on fast slider drags fixed.
 v2.0 — First release. 1000% boost, Smart Boost, per-site memory, keyboard shortcuts.

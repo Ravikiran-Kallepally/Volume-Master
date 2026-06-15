@@ -374,17 +374,21 @@ shareUrlCopy.addEventListener('click', () => {
   }).catch(() => chrome.tabs.create({ url: STORE_URL }));
 });
 
-// ── Rate us nudge ─────────────────────────────────────────────────────────────
-// Asks only people who've opened the popup a handful of times, asks once,
-// snoozes politely on "Maybe later", and never nags after Rate/dismiss.
+// ── Rate us nudge (sentiment-gated) ───────────────────────────────────────────
+// Asks only engaged users (5+ opens), once, snoozes on "Maybe later", never nags
+// after a final action. Step 1 asks how they feel: happy users are routed to the
+// store review page; unhappy users are routed to private feedback — so frustration
+// becomes a message to us instead of a 1-star review.
 const REVIEW_URL       = `${STORE_URL}/reviews`;
+const FEEDBACK_URL     = 'mailto:ravikirankallepally@gmail.com?subject=Volume%20Master%20feedback';
 const RATE_MIN_USES    = 5;   // only prompt engaged users
 const RATE_SNOOZE_STEP = 7;   // "Maybe later" → ask again after this many more opens
 
-const rateCard  = $('rate-card');
-const rateClose = $('rate-close');
-const rateNow   = $('rate-now');
-const rateLater = $('rate-later');
+const rateCard    = $('rate-card');
+const rateClose   = $('rate-close');
+const rateStepAsk   = $('rate-step-ask');
+const rateStepHappy = $('rate-step-happy');
+const rateStepSad   = $('rate-step-sad');
 
 async function maybeShowRatePrompt() {
   let store;
@@ -392,13 +396,19 @@ async function maybeShowRatePrompt() {
     store = await chrome.storage.local.get(['vm_uses', 'vm_rate_done', 'vm_rate_snooze']);
   } catch { return; }
 
-  if (store.vm_rate_done) return;            // already rated or dismissed for good
+  if (store.vm_rate_done) return;            // already acted or dismissed for good
 
   const uses = (store.vm_uses || 0) + 1;
   chrome.storage.local.set({ vm_uses: uses });
 
   const showAt = store.vm_rate_snooze || RATE_MIN_USES;
-  if (uses >= showAt) rateCard.hidden = false;
+  if (uses >= showAt) rateCard.hidden = false; // step 1 is visible by default
+}
+
+function showRateStep(step) {
+  rateStepAsk.hidden   = (step !== 'ask');
+  rateStepHappy.hidden = (step !== 'happy');
+  rateStepSad.hidden   = (step !== 'sad');
 }
 
 function hideRate(permanent) {
@@ -406,17 +416,31 @@ function hideRate(permanent) {
   if (permanent) chrome.storage.local.set({ vm_rate_done: true });
 }
 
-rateNow.addEventListener('click', () => {
+async function snoozeRate() {
+  const { vm_uses = 0 } = await chrome.storage.local.get('vm_uses');
+  chrome.storage.local.set({ vm_rate_snooze: vm_uses + RATE_SNOOZE_STEP });
+  hideRate(false);
+}
+
+// Step 1 — sentiment fork
+$('rate-yes').addEventListener('click', () => showRateStep('happy'));
+$('rate-no').addEventListener('click',  () => showRateStep('sad'));
+
+// Step 2a — happy → store review
+$('rate-now').addEventListener('click', () => {
   chrome.tabs.create({ url: REVIEW_URL });
   hideRate(true);
   window.close();
 });
+$('rate-later-happy').addEventListener('click', snoozeRate);
 
-rateLater.addEventListener('click', async () => {
-  const { vm_uses = 0 } = await chrome.storage.local.get('vm_uses');
-  chrome.storage.local.set({ vm_rate_snooze: vm_uses + RATE_SNOOZE_STEP });
-  hideRate(false);
+// Step 2b — unhappy → private feedback
+$('rate-feedback').addEventListener('click', () => {
+  chrome.tabs.create({ url: FEEDBACK_URL });
+  hideRate(true);
+  window.close();
 });
+$('rate-later-sad').addEventListener('click', snoozeRate);
 
 rateClose.addEventListener('click', () => hideRate(true)); // × = don't ask again
 

@@ -780,3 +780,19 @@ body {
   transition: color .15s;
 }
 .rate-later:hover { color: var(--text-dim); }
+
+/* Sentiment step (Love it / Not really) */
+.rate-yes, .rate-no {
+  flex: 1 1 0;
+  padding: 8px 10px;
+  background: var(--surface2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .15s, border-color .15s;
+}
+.rate-yes:hover { background: rgba(124,58,237,.18); border-color: rgba(124,58,237,.45); }
+.rate-no:hover  { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.18); }

@@ -10,6 +10,16 @@
 
 ---
 
+### v2.9.0 — Sentiment-Gated Rate Prompt
+> More reviews, and a protected rating
+
+- The Rate Us card now asks "Enjoying Volume Master?" first
+- Happy users (😊 Love it) are routed to the Chrome Web Store review page
+- Unhappy users (😕 Not really) are routed to private feedback (email) instead of the store — so frustration becomes a message, not a 1-star review
+- Same polite triggers as before: engaged users only (5+ opens), once, snooze on "Maybe later", never nags after a final action
+
+---
+
 ### v2.8.0 — 24 Languages Total
 > Major-market localization batch
 

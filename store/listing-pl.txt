@@ -1,0 +1,26 @@
+Wzmacniacz głośności i dźwięku dla Chrome. Zwiększ głośność do 1000% dzięki kompresorowi Smart Boost, pamięci dla każdej witryny i sterowaniu dla każdej karty.
+
+Volume Master to wzmacniacz głośności, który daje Ci kontrolę nad dźwiękiem w Chrome: podgłośnij dowolną kartę od ciszy aż do 1000%, niezależnie od głośności systemu. Wzmacniacz dźwięku, którego potrzebujesz, gdy filmy są zbyt ciche.
+
+Przeciągnij suwak, wybierz ustawienie (50 / 100 / 200 / 400 / 1000%) lub użyj skrótów klawiszowych. Każda karta ma własny poziom. Wycisz jedną kartę, nie ruszając pozostałych.
+
+🔊 𝐒𝐦𝐚𝐫𝐭 𝐁𝐨𝐨𝐬𝐭 :
+Powyżej 400% wzmacniacz automatycznie włącza kompresor, który ujarzmia głośne szczyty, zanim zniekształcą dźwięk. Otrzymujesz naprawdę głośniejszy dźwięk, a nie hałas. Wyłącz go w dowolnej chwili.
+
+💾 𝐏𝐚𝐦𝐢ęć 𝐝𝐥𝐚 𝐰𝐢𝐭𝐫𝐲𝐧𝐲 :
+Zapisz głośność dla dowolnej witryny, a zostanie przywrócona automatycznie przy każdej wizycie, bez otwierania okna. Twoje ustawienie Smart Boost również zostaje zapisane.
+
+⌨️ 𝐒𝐤𝐫ó𝐭𝐲 𝐤𝐥𝐚𝐰𝐢𝐬𝐳𝐨𝐰𝐞 :
+Alt+Shift+↑ / ↓ — zwiększ lub zmniejsz głośność o 10%
+Alt+Shift+M — wycisz
+(Można dostosować w chrome://extensions/shortcuts)
+
+📤 𝐔𝐝𝐨𝐬𝐭ę𝐩𝐧𝐢𝐣 :
+Wyślij rozszerzenie znajomym bezpośrednio z okna przez WhatsApp, Reddit, X, Facebook lub LinkedIn, albo skopiuj link.
+
+🔒 𝐔𝐩𝐫𝐚𝐰𝐧𝐢𝐞𝐧𝐢𝐚 :
+Szerokie uprawnienie jest potrzebne do połączenia z dźwiękiem każdej strony. Żadna treść strony nie jest odczytywana. Nic nie jest zbierane ani wysyłane.
+
+Za darmo. Bez reklam. Bez śledzenia.
+
+Stworzone z ❤️ przez ravikirankallepally.

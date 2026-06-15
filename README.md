@@ -10,6 +10,15 @@
 
 ---
 
+### v2.8.0 — 24 Languages Total
+> Major-market localization batch
+
+- Added `_locales/` for Arabic, Italian, Japanese, Korean, Chinese (Simplified + Traditional), Polish, Dutch, Thai, Ukrainian, Swedish, Malay, Filipino, and Czech
+- Store listing now localized in **24 languages**, covering essentially all global Chrome traffic
+- Canonical bolded descriptions saved in `store/listing-<lang>.txt`
+
+---
+
 ### v2.7.0 — More Languages
 > Five more localized markets
 

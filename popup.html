@@ -198,7 +198,7 @@
       <div class="tabs-list" id="tabs-list"></div>
     </section>
 
-    <!-- ── Rate us nudge (shown only after repeated use) ─ -->
+    <!-- ── Rate us nudge (sentiment-gated, shown only after repeated use) ─ -->
     <div class="rate-card" id="rate-card" hidden>
       <button class="rate-close" id="rate-close" title="Dismiss" aria-label="Dismiss">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -206,14 +206,41 @@
           <line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/>
         </svg>
       </button>
-      <div class="rate-stars" aria-hidden="true">★★★★★</div>
-      <div class="rate-text">
-        <strong>Enjoying Volume Master?</strong>
-        <span>A quick rating really helps it grow 🙏</span>
+
+      <!-- Step 1 — sentiment -->
+      <div class="rate-step" id="rate-step-ask">
+        <div class="rate-text">
+          <strong>Enjoying Volume Master?</strong>
+        </div>
+        <div class="rate-actions">
+          <button class="btn rate-yes" id="rate-yes">😊 Love it</button>
+          <button class="btn rate-no"  id="rate-no">😕 Not really</button>
+        </div>
       </div>
-      <div class="rate-actions">
-        <button class="btn rate-now" id="rate-now">Rate it</button>
-        <button class="rate-later" id="rate-later">Maybe later</button>
+
+      <!-- Step 2a — happy → review -->
+      <div class="rate-step" id="rate-step-happy" hidden>
+        <div class="rate-stars" aria-hidden="true">★★★★★</div>
+        <div class="rate-text">
+          <strong>Awesome — thank you! 🙏</strong>
+          <span>A quick review really helps it grow.</span>
+        </div>
+        <div class="rate-actions">
+          <button class="btn rate-now" id="rate-now">Rate it</button>
+          <button class="rate-later" id="rate-later-happy">Maybe later</button>
+        </div>
+      </div>
+
+      <!-- Step 2b — unhappy → feedback -->
+      <div class="rate-step" id="rate-step-sad" hidden>
+        <div class="rate-text">
+          <strong>Sorry about that 😕</strong>
+          <span>Tell us what's wrong — we actually read it.</span>
+        </div>
+        <div class="rate-actions">
+          <button class="btn rate-now" id="rate-feedback">Send feedback</button>
+          <button class="rate-later" id="rate-later-sad">Maybe later</button>
+        </div>
       </div>
     </div>
 

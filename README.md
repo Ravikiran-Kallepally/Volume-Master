@@ -10,6 +10,15 @@
 
 ---
 
+### v3.0.0 — Smarter Review Reach
+> Get more reviews from happy users, still no nagging
+
+- **Smarter prompt trigger:** the rate card now shows after 3 opens **OR** 2+ days installed with at least one use — so set-and-forget users (whose volume auto-restores via per-site memory and rarely reopen the popup) actually get a chance to be asked
+- **Passive footer link:** a small, always-available "★ Rate Volume Master" link at the bottom of the popup — motivated users can rate any time, and it never interrupts anyone
+- Keeps every guardrail: once, snooze on "Maybe later", never nags after a final action, sentiment-gated (happy → store, unhappy → private feedback)
+
+---
+
 ### v2.9.0 — Sentiment-Gated Rate Prompt
 > More reviews, and a protected rating
 

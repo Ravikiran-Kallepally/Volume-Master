@@ -381,8 +381,10 @@ shareUrlCopy.addEventListener('click', () => {
 // becomes a message to us instead of a 1-star review.
 const REVIEW_URL       = `${STORE_URL}/reviews`;
 const FEEDBACK_URL     = 'mailto:ravikirankallepally@gmail.com?subject=Volume%20Master%20feedback';
-const RATE_MIN_USES    = 5;   // only prompt engaged users
-const RATE_SNOOZE_STEP = 7;   // "Maybe later" → ask again after this many more opens
+const RATE_MIN_USES    = 3;        // show after this many opens…
+const RATE_MIN_DAYS    = 2;        // …OR after this many days installed (+1 use)
+const RATE_SNOOZE_STEP = 7;        // "Maybe later" → wait this many more opens
+const DAY_MS           = 86400000;
 
 const rateCard    = $('rate-card');
 const rateClose   = $('rate-close');
@@ -393,16 +395,25 @@ const rateStepSad   = $('rate-step-sad');
 async function maybeShowRatePrompt() {
   let store;
   try {
-    store = await chrome.storage.local.get(['vm_uses', 'vm_rate_done', 'vm_rate_snooze']);
+    store = await chrome.storage.local.get(
+      ['vm_uses', 'vm_rate_done', 'vm_rate_snooze', 'vm_first_seen']);
   } catch { return; }
 
   if (store.vm_rate_done) return;            // already acted or dismissed for good
 
-  const uses = (store.vm_uses || 0) + 1;
-  chrome.storage.local.set({ vm_uses: uses });
+  const now       = Date.now();
+  const firstSeen = store.vm_first_seen || now;
+  const uses      = (store.vm_uses || 0) + 1;
+  chrome.storage.local.set({ vm_uses: uses, vm_first_seen: firstSeen });
 
-  const showAt = store.vm_rate_snooze || RATE_MIN_USES;
-  if (uses >= showAt) rateCard.hidden = false; // step 1 is visible by default
+  // Respect a "Maybe later" snooze (a use-count gate) before anything else.
+  if (store.vm_rate_snooze && uses < store.vm_rate_snooze) return;
+
+  // Per-site memory means many users rarely reopen the popup — so also trigger
+  // on days-installed, not just open count, to reach set-and-forget users.
+  const daysInstalled = (now - firstSeen) / DAY_MS;
+  const engaged = uses >= RATE_MIN_USES || (daysInstalled >= RATE_MIN_DAYS && uses >= 1);
+  if (engaged) rateCard.hidden = false; // step 1 is visible by default
 }
 
 function showRateStep(step) {
@@ -443,6 +454,12 @@ $('rate-feedback').addEventListener('click', () => {
 $('rate-later-sad').addEventListener('click', snoozeRate);
 
 rateClose.addEventListener('click', () => hideRate(true)); // × = don't ask again
+
+// Passive, always-available rate link in the footer — never interrupts, lets
+// motivated users rate any time without waiting for the prompt.
+$('footer-rate').addEventListener('click', () => {
+  chrome.tabs.create({ url: REVIEW_URL });
+});
 
 maybeShowRatePrompt();
 

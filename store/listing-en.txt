@@ -22,6 +22,8 @@ Alt+Shift+M — mute toggle
 Send the extension to friends directly from the popup via WhatsApp, Reddit, X, Facebook, or LinkedIn — or just copy the link.
 
 ✨ 𝐖𝐡𝐚𝐭'𝐬 𝐧𝐞𝐰 :
+v3.0 — Quick "Rate" link in the popup and a friendlier, smarter feedback prompt.
+v2.9 — New one-tap feedback option — tell us what's off and we'll fix it.
 v2.8 — Now available in 24 languages.
 v2.6 — Polite "rate us" prompt for happy users.
 v2.5 — Localized store listing.

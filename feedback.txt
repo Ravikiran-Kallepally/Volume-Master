@@ -1,0 +1,92 @@
+VOLUME MASTER — FEEDBACK BACKLOG
+=================================
+
+Source: Kamesh (friend) feedback
+Logged: 2026-06-16
+Target: v3.1 (after v3.0 ships)
+
+GUIDING PRINCIPLE (read before building any of this):
+  - Take with a pinch of salt — this is from Kamesh, a long-time friend, not
+    broad user data. Validate against real reviews/feedback before prioritizing.
+  - DO NOT ship any change that risks the current experience people already
+    love. The product works and is growing; protecting that beats any of these.
+  - Each item must be additive / opt-in / behind safe defaults. If a fix can't
+    be made without regressing core behavior (esp. #3 Smart Boost audio), park
+    it rather than risk it.
+  - Ship one change at a time and test before/after; never bundle a risky audio
+    change with unrelated ones.
+
+---
+
+1) CONTROL OTHER TABS' VOLUME FROM THE AUDIO TABS SECTION
+   In the Audio Tabs list (popup), a user can currently only click a row to
+   switch to that tab. Request: adjust another tab's volume right there, without
+   leaving the popup.
+   - Doable: background applyToTab(tabId, ...) already works by tab ID.
+   - Plan: add a small per-row control (−/+ buttons + % readout, or a mini
+     slider) that sends SET_TAB_VOLUME to that row's tab id.
+
+2) UNSAVE SHOWS "UNSAVED FOR SITE" BUT VOLUME STAYS AT 110%
+   (+ continuation: on refresh it SOMETIMES goes back to 100%, sometimes stays)
+   - Unsave only removes the saved per-site memory; it does NOT reset the live
+     volume, and nothing reapplies state on reload. So refresh behavior is
+     inconsistent depending on HOW the page reloads:
+       * Hard reload (F5) -> fresh content script -> drops to 100%.
+       * In-app / SPA navigation (e.g. YouTube next video) -> page never fully
+         reloads, audio graph stays alive -> STAYS at 110%.
+     That's the "sometimes goes back, sometimes not."
+   - Secondary bug: unsaveSite() does NOT clear background tabState[tabId], so
+     the popup can keep reporting 110% until a hard reload.
+   - REVISED RECOMMENDATION → Option B: make Unsave deterministic — immediately
+     reset the current tab to 100% AND clear background tabState[tabId] (and
+     update the popup UI). Removes the "sometimes" entirely.
+     (Option A — just reword the toast and leave volume — was the earlier pick,
+      but the refresh inconsistency makes Option B the better fix.)
+
+3) SMART BOOST — LITTLE DIFFERENCE 480→600 ON SOME SITES (off = noticeable)
+   - Most important item. Root cause: the compressor is a hard limiter
+     (ratio 20:1, threshold −6 dB) with NO makeup gain, so it flattens peaks —
+     past ~480 it barely gets louder with Smart Boost ON (that's the limiter
+     working). OFF, you hear the full jump (louder but can clip). YouTube is
+     already mastered loud, so the gap shows more on quieter sites.
+   - Fix: add makeup gain AFTER the compressor (and slightly gentler
+     threshold/ratio) so it's louder AND clean, not clean-but-capped.
+   - Needs careful tuning + testing across several sites.
+
+4) ON-SCREEN NOTIFICATION FOR KEYBOARD SHORTCUTS
+   - Today the "⚡ Smart Boost enabled" toast only shows inside the popup. With
+     keyboard shortcuts (popup closed) there's no feedback.
+   - Fix: content script shows a brief on-page overlay (volume OSD, e.g.
+     "🔊 150%" / "⚡ Smart Boost on") when volume/mute/boost changes via the
+     Alt+Shift shortcuts. Background already handles the commands; it just needs
+     to message the content script to display the overlay.
+
+---
+
+---
+
+STORE USER FEEDBACK (logged 2026-07-20) — FIXED in v3.1.0
+   "Spent some time to find volume booster that remembers my choice and came
+    across your extension. So good so far!"
+   "In YouTube works well but in embedded flash games doesn't work"
+
+   Root cause: content.js only hooked <audio>/<video> elements via
+   createMediaElementSource. Browser games (HTML5 / WebGL / Unity / Godot, and
+   Flash games running through Ruffle) never create media elements — they build
+   their own AudioContext and connect straight to ctx.destination, so there was
+   nothing for us to attach to.
+
+   Fix: added page-audio.js, a document_start content script running in the
+   PAGE's JS world (world: "MAIN"), all_frames. It wraps the AudioContext
+   constructor and shadows each instance's `destination` with our GainNode
+   (+ compressor when Smart Boost is on). Gain defaults to 1.0 so it is
+   transparent until the user changes volume; the existing media-element path
+   is untouched.
+
+---
+
+Suggested v3.1 priority:
+  1. #3 Smart Boost makeup gain (highest impact — core product perception)
+  2. #4 Shortcut on-screen overlay (frequently requested polish)
+  3. #1 Inline tab volume control (power-user delight)
+  4. #2 Unsave wording (2-minute fix — bundle in)

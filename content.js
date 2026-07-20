@@ -95,6 +95,19 @@
     if (boostChanged) buildChain();
     if (state.gain) state.gain.gain.value = state.muted ? 0 : state.volume;
     scanAndConnect();
+
+    // Games (HTML5 / WebGL / Unity / Ruffle-Flash) have no <audio>/<video>
+    // elements — they drive their own AudioContext. page-audio.js runs in the
+    // page world and hooks that; forward the state to it.
+    try {
+      window.postMessage({
+        __vmPage: {
+          volume:     state.volume,
+          muted:      state.muted,
+          smartBoost: state.smartBoost,
+        }
+      }, '*');
+    } catch {}
   }
 
   // ── Media element connection ───────────────────────────────────────────────

@@ -10,6 +10,17 @@
 
 ---
 
+### v3.1.0 — Browser Games & Web Audio Support
+
+> Boost audio that never touches an `<audio>` or `<video>` tag
+
+- **Games now work.** HTML5 / WebGL / Unity / Godot titles (and Flash games running through Ruffle) generate sound via their own `AudioContext` and connect straight to `ctx.destination`, so the media-element hook had nothing to attach to and the boost did nothing
+- Added `page-audio.js`, a `document_start` script running in the **page's own JS world**, which wraps the `AudioContext` constructor and shadows each instance's `destination` with our GainNode (plus the Smart Boost compressor when enabled)
+- Runs in all frames, so games inside cross-origin iframes are covered too
+- Fully transparent when idle: gain defaults to 1.0, and the existing `<audio>`/`<video>` path is untouched, so YouTube and everything that already worked behaves exactly as before
+
+---
+
 ### v3.0.0 — Smarter Review Reach
 
 > Get more reviews from happy users, still no nagging

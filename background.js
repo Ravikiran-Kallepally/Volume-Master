@@ -36,17 +36,37 @@ async function applyToTab(tabId, volume, muted, smartBoost = false) {
 // ── Per-site memory ──────────────────────────────────────────────────────────
 
 chrome.tabs.onUpdated.addListener(async (tabId, info, tab) => {
-  if (info.status !== 'complete') return;
   if (!tab.url || !/^https?:/.test(tab.url)) return;
 
   let hostname;
   try { hostname = new URL(tab.url).hostname; } catch { return; }
 
-  const stored = await chrome.storage.local.get(hostname);
-  const saved  = stored[hostname];
-  if (saved != null) {
-    const { volume, smartBoost } = saved;
-    if (volume !== 1.0) await applyToTab(tabId, volume, false, smartBoost ?? false);
+  // In-app (SPA) navigation — e.g. switching episodes on a streaming site.
+  // These fire with changeInfo.url but no 'complete' status, so the full-load
+  // restore below never runs and the boost gets dropped on the new episode.
+  // Re-assert the live session boost (SPA navigation can't change origin, so
+  // carrying the current tab's level is safe); fall back to per-site memory.
+  if (info.url && info.status !== 'complete') {
+    const cur = tabState[tabId];
+    if (cur && (cur.volume !== 1.0 || cur.muted)) {
+      await applyToTab(tabId, cur.volume, cur.muted, cur.smartBoost);
+      return;
+    }
+    const stored = await chrome.storage.local.get(hostname);
+    const saved  = stored[hostname];
+    if (saved != null && saved.volume !== 1.0) {
+      await applyToTab(tabId, saved.volume, false, saved.smartBoost ?? false);
+    }
+    return;
+  }
+
+  // Full page load — restore from per-site memory.
+  if (info.status === 'complete') {
+    const stored = await chrome.storage.local.get(hostname);
+    const saved  = stored[hostname];
+    if (saved != null && saved.volume !== 1.0) {
+      await applyToTab(tabId, saved.volume, false, saved.smartBoost ?? false);
+    }
   }
 });
 

@@ -90,3 +90,23 @@ Suggested v3.1 priority:
   2. #4 Shortcut on-screen overlay (frequently requested polish)
   3. #1 Inline tab volume control (power-user delight)
   4. #2 Unsave wording (2-minute fix — bundle in)
+
+---
+
+STORE USER FEEDBACK (logged 2026-07-22) — FIXED in v3.2.0
+   User watches shows on the HBO/Max website and saves volume per site, but has
+   to re-save on every episode change.
+
+   Diagnosis (NOT the storage key — that's keyed by hostname only, which doesn't
+   change per episode): Max is a single-page app. Switching episodes changes the
+   URL via the History API with NO full reload. Background's restore only ran on
+   info.status === 'complete', which never fires for SPA navigation, so the boost
+   was dropped on the new episode. Re-saving worked only because it forced a
+   re-scan/reconnect.
+
+   Fix (two layers):
+   A) background.js onUpdated now also handles SPA url changes (info.url without
+      'complete'): re-asserts the live session boost (tabState), falling back to
+      saved per-site memory. SPA nav can't change origin, so this is safe.
+   B) content.js self-heals: polls location.href (1s) and, on change while a
+      boost is active, rebuilds the audio graph + reconnects the new <video>.

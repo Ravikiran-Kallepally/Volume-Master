@@ -10,6 +10,17 @@
 
 ---
 
+### v3.2.0 — Saved Volume Persists Across Episodes (SPA Navigation)
+
+> Fixes streaming sites resetting the boost when you change episode
+
+- On single-page-app sites (Max/HBO, Netflix, etc.) switching episodes changes the URL via the History API without a full page reload. The restore listener only fired on full loads (`status: 'complete'`), so the boost was dropped on the next episode and the user had to re-save every time
+- **Background:** now also re-applies on in-app URL changes, re-asserting the live session boost (falls back to per-site memory). SPA navigation can't change origin, so carrying the level is safe
+- **Content script:** added an in-page navigation self-heal that watches the URL and rebuilds the audio graph / reconnects the new `<video>` element when it changes
+- Reported by a user watching shows on HBO
+
+---
+
 ### v3.1.0 — Browser Games & Web Audio Support
 
 > Boost audio that never touches an `<audio>` or `<video>` tag

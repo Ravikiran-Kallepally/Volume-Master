@@ -151,6 +151,34 @@
 
   scanAndConnect();
 
+  // ── In-page (SPA) navigation self-heal ─────────────────────────────────────
+  // Streaming sites (Max/HBO, Netflix, etc.) switch episodes without a full
+  // reload: the URL changes via the History API and a fresh <video> is built,
+  // which drops the boost. Watch the URL and, on change, rebuild the graph if
+  // needed and reconnect the new media element so the level persists.
+  let lastHref = location.href;
+  setInterval(() => {
+    if (location.href === lastHref) return;
+    lastHref = location.href;
+
+    const active = state.volume !== 1.0 || state.muted || state.smartBoost;
+    if (!active) return;
+
+    if (state.ctx && state.ctx.state === 'closed') {
+      state.ctx = null; state.gain = null; state.compressor = null;
+    }
+    ensureContext();
+    if (state.gain) state.gain.gain.value = state.muted ? 0 : state.volume;
+    scanAndConnect();
+
+    // Keep the page-world game hook in sync too.
+    try {
+      window.postMessage({
+        __vmPage: { volume: state.volume, muted: state.muted, smartBoost: state.smartBoost }
+      }, '*');
+    } catch {}
+  }, 1000);
+
   // ── Cross-origin iframe relay ──────────────────────────────────────────────
   window.addEventListener('message', e => {
     const msg = e.data?.__vm;

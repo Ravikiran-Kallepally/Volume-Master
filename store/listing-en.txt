@@ -22,6 +22,7 @@ Alt+Shift+M — mute toggle
 Send the extension to friends directly from the popup via WhatsApp, Reddit, X, Facebook, or LinkedIn — or just copy the link.
 
 ✨ 𝐖𝐡𝐚𝐭'𝐬 𝐧𝐞𝐰 :
+v3.2 — Your saved volume now sticks across episodes on streaming sites — no more re-saving every time you change episode.
 v3.1 — Browser games now work. Volume boost applies to HTML5, WebGL, and Flash (Ruffle) games, including ones in embedded players.
 v3.0 — Quick "Rate" link in the popup and a friendlier, smarter feedback prompt.
 v2.9 — New one-tap feedback option — tell us what's off and we'll fix it.

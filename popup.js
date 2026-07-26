@@ -179,7 +179,7 @@ async function saveSite() {
 async function unsaveSite() {
   if (!hostname) return;
   try {
-    await bgMsg({ type: 'SAVE_SITE_VOLUME', hostname, volume: 1.0, smartBoost: false });
+    await bgMsg({ type: 'REMOVE_SITE_VOLUME', hostname });
     setSaveState(false);
     showToast(`Removed saved setting for ${hostname}`);
   } catch {}
@@ -404,7 +404,7 @@ async function loadSavedSites() {
     row.querySelector('.saved-remove').addEventListener('click', async e => {
       e.stopPropagation();
       try {
-        await bgMsg({ type: 'SAVE_SITE_VOLUME', hostname: s.hostname, volume: 1.0, smartBoost: false });
+        await bgMsg({ type: 'REMOVE_SITE_VOLUME', hostname: s.hostname });
       } catch {}
       if (s.hostname === hostname) setSaveState(false); // keep front in sync
       loadSavedSites();

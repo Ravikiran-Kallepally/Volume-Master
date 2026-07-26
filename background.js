@@ -112,12 +112,17 @@ chrome.runtime.onMessage.addListener((msg, _sender, respond) => {
       }
 
       case 'SAVE_SITE_VOLUME': {
+        // Always store what the user asked for — including 100%. Previously a
+        // 100% save silently removed the entry, so the popup claimed "Saved"
+        // while nothing was stored. Removal is now its own explicit action.
         const { hostname, volume, smartBoost } = msg;
-        if (volume === 1.0) {
-          await chrome.storage.local.remove(hostname);
-        } else {
-          await chrome.storage.local.set({ [hostname]: { volume, smartBoost } });
-        }
+        await chrome.storage.local.set({ [hostname]: { volume, smartBoost } });
+        respond({ ok: true });
+        break;
+      }
+
+      case 'REMOVE_SITE_VOLUME': {
+        await chrome.storage.local.remove(msg.hostname);
         respond({ ok: true });
         break;
       }

@@ -18,6 +18,7 @@
 - Each row shows the hostname, its saved level (e.g. "300%"), a ⚡ if Smart Boost is on, and a trash icon to remove it — no more revisiting a site just to unsave it
 - Click a row to open that site; a back arrow flips to the front
 - Fills a real gap: there was previously no way to review or clean up saved sites, and it makes the per-site memory visible (helps when users wonder "did it save?")
+- **Bug fix (surfaced by the new list):** saving a site at exactly 100% used to silently delete the entry while the popup still showed "Saved" — so it looked like saving didn't work. Save now always stores what you asked for (including 100%), with removal as its own explicit action. Likely the cause of a "saving isn't working" report
 - Purely additive — the front view is unchanged, so nothing that already worked is affected
 
 ---

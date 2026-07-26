@@ -10,6 +10,18 @@
 
 ---
 
+### v3.3.0 — Saved Sites Manager (Flip View)
+
+> See and manage every site you've saved a volume for
+
+- The popup header now has a **saved-sites** button that **flips the popup over** to a back panel listing every site with a saved volume
+- Each row shows the hostname, its saved level (e.g. "300%"), a ⚡ if Smart Boost is on, and a trash icon to remove it — no more revisiting a site just to unsave it
+- Click a row to open that site; a back arrow flips to the front
+- Fills a real gap: there was previously no way to review or clean up saved sites, and it makes the per-site memory visible (helps when users wonder "did it save?")
+- Purely additive — the front view is unchanged, so nothing that already worked is affected
+
+---
+
 ### v3.2.0 — Saved Volume Persists Across Episodes (SPA Navigation)
 
 > Fixes streaming sites resetting the boost when you change episode

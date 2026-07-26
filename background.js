@@ -128,6 +128,17 @@ chrome.runtime.onMessage.addListener((msg, _sender, respond) => {
         break;
       }
 
+      case 'GET_ALL_SAVED_SITES': {
+        const all = await chrome.storage.local.get(null);
+        const sites = Object.entries(all)
+          // Saved sites are objects with a `volume`; skip internal keys (vm_*).
+          .filter(([k, v]) => !k.startsWith('vm_') && v && typeof v === 'object' && 'volume' in v)
+          .map(([hostname, v]) => ({ hostname, volume: v.volume, smartBoost: !!v.smartBoost }))
+          .sort((a, b) => a.hostname.localeCompare(b.hostname));
+        respond(sites);
+        break;
+      }
+
       case 'GET_AUDIO_TABS': {
         const all = await chrome.tabs.query({});
         const audio = all

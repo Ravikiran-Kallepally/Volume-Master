@@ -356,6 +356,70 @@ function openSharePanel() {
 
 btnShare.addEventListener('click', openSharePanel);
 
+// ── Saved Sites (flip to back) ────────────────────────────────────────────────
+const appEl     = $('app');
+const savedList  = $('saved-list');
+const savedCount = $('saved-count');
+
+async function loadSavedSites() {
+  let sites = [];
+  try { sites = (await bgMsg({ type: 'GET_ALL_SAVED_SITES' })) || []; } catch {}
+
+  savedCount.textContent = sites.length ? String(sites.length) : '';
+
+  if (!sites.length) {
+    savedList.innerHTML =
+      '<div class="saved-empty">No saved sites yet.<br>Save a volume for a site and it shows up here.</div>';
+    return;
+  }
+
+  savedList.innerHTML = '';
+  sites.forEach(s => {
+    const row = document.createElement('div');
+    row.className = 'saved-row';
+    row.title = `Open ${s.hostname}`;
+    row.innerHTML = `
+      <svg class="saved-globe" width="16" height="16" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
+        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+      </svg>
+      <span class="saved-host">${escHtml(s.hostname)}</span>
+      ${s.smartBoost ? '<span class="saved-boost" title="Smart Boost on">⚡</span>' : ''}
+      <span class="saved-vol">${pct(s.volume)}%</span>
+      <button class="saved-remove" title="Remove ${escHtml(s.hostname)}">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/>
+          <path d="M10 11v6"/><path d="M14 11v6"/>
+        </svg>
+      </button>`;
+
+    row.addEventListener('click', e => {
+      if (e.target.closest('.saved-remove')) return;
+      chrome.tabs.create({ url: `https://${s.hostname}` });
+      window.close();
+    });
+
+    row.querySelector('.saved-remove').addEventListener('click', async e => {
+      e.stopPropagation();
+      try {
+        await bgMsg({ type: 'SAVE_SITE_VOLUME', hostname: s.hostname, volume: 1.0, smartBoost: false });
+      } catch {}
+      if (s.hostname === hostname) setSaveState(false); // keep front in sync
+      loadSavedSites();
+    });
+
+    savedList.appendChild(row);
+  });
+}
+
+$('btn-saved').addEventListener('click', () => {
+  appEl.classList.add('flipped');
+  loadSavedSites();
+});
+$('saved-back').addEventListener('click', () => appEl.classList.remove('flipped'));
+
 shareClose.addEventListener('click', () => shareOverlay.classList.remove('visible'));
 
 // Close on backdrop click

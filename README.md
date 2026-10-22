@@ -10,6 +10,19 @@
 
 ---
 
+### v3.4.0 — Feature Survey (Engaged Users Only)
+
+> Ask the people who actually use it what they'd pay for
+
+- A small one-time card in the popup asks: **"Would you pay for extra features?"** (One-time / Monthly / Keep it free). Pay answers continue to a tap-to-pick feature list (Equalizer, Presets, Other tabs, On-screen display, Louder boost)
+- **Shown only to engaged users:** installed 14+ days **and** at least one saved site (or 10+ popup opens). Never shown in the same open as the rate card. Shown **once**; Skip / × / No thanks all dismiss it for good (`vm_survey_done`)
+- Passive **"💡 Help shape what's next"** footer link next to Rate, for anyone who wants to answer at any time
+- **Privacy:** the extension sends nothing. Answers open a pre-filled Google Form in a new tab and the user decides whether to submit. Privacy policy updated to say so
+- Card and footer link stay hidden until `SURVEY_FORM_URL` is set in `popup.js`
+- Popup-only change — no audio code touched
+
+---
+
 ### v3.3.0 — Saved Sites Manager (Flip View)
 
 > See and manage every site you've saved a volume for

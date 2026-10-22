@@ -525,7 +525,95 @@ $('footer-rate').addEventListener('click', () => {
   chrome.tabs.create({ url: REVIEW_URL });
 });
 
-maybeShowRatePrompt();
+// ── Feature survey (engaged users only, shown once) ──────────────────────────
+// Asks real users whether they'd pay for extra features, and which ones. Shown
+// only to people who clearly use the product (installed 14+ days AND a saved
+// site or 10+ opens), never in the same open as the rate card, and once only.
+// Privacy: nothing is sent from the extension. Answers open a pre-filled Google
+// Form in a new tab and the user chooses whether to submit it.
+const SURVEY_FORM_URL      = 'https://docs.google.com/forms/d/e/1FAIpQLScojMVH6us-8q3lqwLch66_cPm67yxIRcHWqR1YSqqSSmLSJA/viewform';
+const SURVEY_ENTRY_PAY     = 'entry.409154700';   // "Would you pay?"
+const SURVEY_ENTRY_FEATURE = 'entry.2015682505';  // "Which features?"
+const SURVEY_MIN_DAYS      = 14;
+const SURVEY_MIN_USES      = 10;
+
+const surveyCard = $('survey-card');
+let surveyPay = '';
+
+function surveyUrl(pay, features = []) {
+  const params = new URLSearchParams();
+  if (pay || features.length) params.set('usp', 'pp_url');
+  if (pay && SURVEY_ENTRY_PAY) params.append(SURVEY_ENTRY_PAY, pay);
+  if (SURVEY_ENTRY_FEATURE) features.forEach(f => params.append(SURVEY_ENTRY_FEATURE, f));
+  const qs = params.toString();
+  return qs ? `${SURVEY_FORM_URL}?${qs}` : SURVEY_FORM_URL;
+}
+
+async function maybeShowSurvey() {
+  if (!SURVEY_FORM_URL) return;
+  $('footer-ideas').hidden = false;
+  if (!rateCard.hidden) return;              // one card at a time
+
+  let store;
+  try {
+    store = await chrome.storage.local.get(['vm_uses', 'vm_first_seen', 'vm_survey_done']);
+  } catch { return; }
+  if (store.vm_survey_done) return;
+
+  const daysInstalled = (Date.now() - (store.vm_first_seen || Date.now())) / DAY_MS;
+  if (daysInstalled < SURVEY_MIN_DAYS) return;
+
+  let hasSavedSite = false;
+  try { hasSavedSite = (await bgMsg({ type: 'GET_ALL_SAVED_SITES' })).length > 0; } catch {}
+  if (!hasSavedSite && (store.vm_uses || 0) < SURVEY_MIN_USES) return;
+
+  surveyCard.hidden = false;
+}
+
+function showSurveyStep(step) {
+  $('survey-step-ask').hidden      = (step !== 'ask');
+  $('survey-step-features').hidden = (step !== 'features');
+  $('survey-step-free').hidden     = (step !== 'free');
+}
+
+function finishSurvey() {
+  surveyCard.hidden = true;
+  chrome.storage.local.set({ vm_survey_done: true });
+}
+
+function openSurvey(url) {
+  chrome.tabs.create({ url });
+  finishSurvey();
+  window.close();
+}
+
+surveyCard.querySelectorAll('.survey-choice').forEach(btn => {
+  btn.addEventListener('click', () => {
+    surveyPay = btn.dataset.pay;
+    showSurveyStep(surveyPay.startsWith('No') ? 'free' : 'features');
+  });
+});
+
+$('survey-chips').addEventListener('click', e => {
+  const chip = e.target.closest('.survey-chip');
+  if (chip) chip.classList.toggle('selected');
+});
+
+$('survey-send').addEventListener('click', () => {
+  const features = [...surveyCard.querySelectorAll('.survey-chip.selected')]
+    .map(c => c.dataset.feature);
+  openSurvey(surveyUrl(surveyPay, features));
+});
+$('survey-idea').addEventListener('click', () => openSurvey(surveyUrl(surveyPay)));
+$('survey-skip').addEventListener('click', finishSurvey);
+$('survey-done').addEventListener('click', finishSurvey);
+$('survey-close').addEventListener('click', finishSurvey);
+
+$('footer-ideas').addEventListener('click', () => {
+  chrome.tabs.create({ url: surveyUrl('') });
+});
+
+maybeShowRatePrompt().then(maybeShowSurvey);
 
 // ── Shortcut sync — poll while popup is open ──────────────────────────────────
 // Keeps the displayed volume in sync when the user uses keyboard shortcuts

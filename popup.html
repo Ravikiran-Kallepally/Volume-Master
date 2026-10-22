@@ -254,10 +254,67 @@
       </div>
     </div>
 
-    <!-- ── Footer — passive rate link ─────────────────── -->
+    <!-- ── Feature survey (engaged users only, shown once) ─ -->
+    <div class="rate-card survey-card" id="survey-card" hidden>
+      <button class="rate-close" id="survey-close" title="Dismiss" aria-label="Dismiss">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2.5" stroke-linecap="round">
+          <line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/>
+        </svg>
+      </button>
+
+      <!-- Step 1 — would you pay? -->
+      <div class="rate-step" id="survey-step-ask">
+        <div class="rate-text">
+          <strong>💡 Quick question</strong>
+          <span>Would you pay for extra features?</span>
+        </div>
+        <div class="rate-actions survey-choices">
+          <button class="btn survey-choice" data-pay="One-time purchase">One-time</button>
+          <button class="btn survey-choice" data-pay="Monthly">Monthly</button>
+          <button class="btn survey-choice" data-pay="No, keep it free">Keep it free</button>
+        </div>
+      </div>
+
+      <!-- Step 2 — which features? -->
+      <div class="rate-step" id="survey-step-features" hidden>
+        <div class="rate-text">
+          <strong>Which would you use?</strong>
+          <span>Pick any — then hit Send.</span>
+        </div>
+        <div class="survey-chips" id="survey-chips">
+          <button class="survey-chip" data-feature="Equalizer (bass / treble)">🎚️ Equalizer</button>
+          <button class="survey-chip" data-feature="Volume presets">💾 Presets</button>
+          <button class="survey-chip" data-feature="Control other tabs from the popup">🗂️ Other tabs</button>
+          <button class="survey-chip" data-feature="On-screen volume display">🔊 On-screen display</button>
+          <button class="survey-chip" data-feature="Louder Smart Boost">⚡ Louder boost</button>
+        </div>
+        <div class="rate-actions">
+          <button class="btn rate-now" id="survey-send">Send</button>
+          <button class="rate-later" id="survey-skip">Skip</button>
+        </div>
+      </div>
+
+      <!-- Step 2b — keep it free -->
+      <div class="rate-step" id="survey-step-free" hidden>
+        <div class="rate-text">
+          <strong>Got it — thanks! 🙏</strong>
+          <span>Got an idea anyway? We'd love to hear it.</span>
+        </div>
+        <div class="rate-actions">
+          <button class="btn rate-now" id="survey-idea">Share an idea</button>
+          <button class="rate-later" id="survey-done">No thanks</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Footer — passive rate + ideas links ───────── -->
     <footer class="app-footer">
       <button class="footer-rate" id="footer-rate" title="Rate Volume Master on the Chrome Web Store">
         ★ Rate Volume Master
+      </button>
+      <button class="footer-rate footer-ideas" id="footer-ideas" title="Tell us what to build next" hidden>
+        💡 Help shape what's next
       </button>
     </footer>
 

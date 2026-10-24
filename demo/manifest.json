@@ -1,0 +1,62 @@
+{
+  "manifest_version": 3,
+  "name": "Volume Master DEMO (Premium Preview)",
+  "version": "3.4.0",
+  "default_locale": "en",
+  "description": "__MSG_appDesc__",
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "storage",
+    "scripting",
+    "windows"
+  ],
+  "host_permissions": ["<all_urls>"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["page-audio.js"],
+      "all_frames": true,
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "all_frames": true,
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "commands": {
+    "increase-volume": {
+      "suggested_key": { "default": "Alt+Shift+Up" },
+      "description": "Increase volume by 10%"
+    },
+    "decrease-volume": {
+      "suggested_key": { "default": "Alt+Shift+Down" },
+      "description": "Decrease volume by 10%"
+    },
+    "toggle-mute": {
+      "suggested_key": { "default": "Alt+Shift+M" },
+      "description": "Toggle mute"
+    }
+  }
+}

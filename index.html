@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Volume Master Remastered: Free Volume Booster for Chrome (up to 1000%)</title>
+<meta name="description" content="Make any Chrome tab louder, up to 1000%. Smart Boost keeps it clean, per-site memory remembers your level, and it works on browser games. Free, no ads, no tracking.">
+<link rel="canonical" href="https://ravikiran-kallepally.github.io/Volume-Master/">
+<link rel="icon" type="image/png" href="icons/icon32.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Volume Master Remastered: Free Volume Booster for Chrome">
+<meta property="og:description" content="Boost any tab up to 1000%. Smart Boost, per-site memory, browser games. Free, no ads, no tracking.">
+<meta property="og:url" content="https://ravikiran-kallepally.github.io/Volume-Master/">
+<meta property="og:image" content="https://ravikiran-kallepally.github.io/Volume-Master/store/hero_tile.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Volume Master Remastered",
+  "applicationCategory": "BrowserApplication",
+  "operatingSystem": "Chrome",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "32" },
+  "url": "https://chromewebstore.google.com/detail/fhlnjpnemdhhoejgdelndonecnbeolok"
+}
+</script>
+<style>
+  :root {
+    --bg:          #0d0d16;
+    --surface:     #171724;
+    --surface2:    #1e1e30;
+    --border:      rgba(255,255,255,.08);
+    --accent:      #7c3aed;
+    --accent-2:    #a78bfa;
+    --accent-glow: rgba(124,58,237,.35);
+    --text:        #f1f5f9;
+    --text-muted:  #64748b;
+    --text-dim:    #94a3b8;
+    --green:       #10b981;
+    --amber:       #f59e0b;
+    --radius:      14px;
+    --max:         1080px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 20px; }
+  section { padding: 88px 0; }
+  h2 { font-size: clamp(26px, 4vw, 38px); line-height: 1.2; letter-spacing: -.5px; }
+  .eyebrow {
+    display: inline-block; margin-bottom: 12px;
+    font-size: 12px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase;
+    color: var(--accent-2);
+  }
+  .lead { color: var(--text-dim); font-size: 17px; max-width: 620px; margin-top: 12px; }
+  .center { text-align: center; }
+  .center .lead { margin-left: auto; margin-right: auto; }
+
+  /* ── Buttons ── */
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 24px; border-radius: 12px;
+    font-weight: 700; font-size: 16px;
+    transition: transform .15s, filter .15s, background .15s;
+  }
+  .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 0 28px var(--accent-glow); }
+  .btn-primary:hover { filter: brightness(1.12); transform: translateY(-1px); }
+  .btn-ghost { border: 1px solid var(--border); color: var(--text-dim); }
+  .btn-ghost:hover { color: var(--text); background: var(--surface); }
+
+  /* ── Nav ── */
+  nav {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(13,13,22,.82); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 17px; }
+  .logo svg { color: var(--accent-2); }
+  .nav-links { display: flex; align-items: center; gap: 26px; font-size: 14px; color: var(--text-dim); }
+  .nav-links a:hover { color: var(--text); }
+  .nav-links .btn { padding: 9px 16px; font-size: 14px; color: #fff; }
+  @media (max-width: 760px) { .nav-links a:not(.btn) { display: none; } }
+
+  /* ── Hero ── */
+  .hero { padding: 72px 0 64px; position: relative; overflow: hidden; }
+  .hero::before {
+    content: ""; position: absolute; inset: -40% -20% auto; height: 640px;
+    background: radial-gradient(closest-side, rgba(124,58,237,.28), transparent);
+    pointer-events: none;
+  }
+  .hero .wrap { position: relative; display: grid; grid-template-columns: 1.1fr .9fr; gap: 48px; align-items: center; }
+  @media (max-width: 900px) { .hero .wrap { grid-template-columns: 1fr; } }
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 12px; border-radius: 999px;
+    background: var(--surface); border: 1px solid var(--border);
+    font-size: 13px; color: var(--text-dim);
+  }
+  .badge b { color: var(--amber); }
+  .hero h1 {
+    font-size: clamp(36px, 6vw, 60px); line-height: 1.05; letter-spacing: -1.5px;
+    margin: 18px 0 18px;
+  }
+  .hero h1 em { font-style: normal; color: var(--green); }
+  .hero p { color: var(--text-dim); font-size: 18px; max-width: 520px; }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+  .fine { margin-top: 14px; font-size: 13px; color: var(--text-muted); }
+
+  /* ── Popup demo ── */
+  .popup {
+    width: 100%; max-width: 360px; margin: 0 auto;
+    background: var(--bg); border: 1px solid var(--border); border-radius: 16px;
+    box-shadow: 0 30px 80px rgba(0,0,0,.55), 0 0 0 1px rgba(124,58,237,.18);
+    overflow: hidden;
+  }
+  .popup-head { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-bottom: 1px solid var(--border); }
+  .popup-head .logo { font-size: 15px; }
+  .popup-site { padding: 10px 16px; font-size: 13px; color: var(--text-dim); border-bottom: 1px solid var(--border); }
+  .popup-body { padding: 22px 16px 18px; }
+  .vol { text-align: center; font-weight: 800; font-size: 64px; line-height: 1; color: var(--green); transition: color .2s; }
+  .vol small { font-size: 22px; color: var(--text-dim); font-weight: 600; }
+  .vol.loud { color: var(--amber); }
+  .bars { display: flex; justify-content: center; align-items: flex-end; gap: 4px; height: 34px; margin: 14px 0 6px; }
+  .bars span { width: 6px; border-radius: 3px; background: var(--accent); opacity: .85; transition: height .25s; }
+  input[type=range] { width: 100%; accent-color: var(--green); margin: 8px 0 4px; }
+  .scale { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); }
+  .sb {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 14px; padding: 12px; border-radius: 10px;
+    background: var(--surface); border: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .sb small { display: block; color: var(--text-muted); font-size: 11px; }
+  .toggle { width: 36px; height: 20px; border-radius: 999px; background: var(--surface2); position: relative; transition: background .2s; }
+  .toggle::after { content: ""; position: absolute; top: 3px; left: 3px; width: 14px; height: 14px; border-radius: 50%; background: var(--text-dim); transition: transform .2s, background .2s; }
+  .toggle.on { background: var(--accent); }
+  .toggle.on::after { transform: translateX(16px); background: #fff; }
+  .presets { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-top: 12px; }
+  .presets button {
+    padding: 7px 0; border-radius: 8px; border: 1px solid var(--border);
+    background: var(--surface); color: var(--text-dim); font: inherit; font-size: 12px; font-weight: 600; cursor: pointer;
+  }
+  .presets button:hover { color: var(--text); border-color: rgba(124,58,237,.5); }
+  .demo-note { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 12px; }
+
+  /* ── Stats strip ── */
+  .stats { padding: 0 0 24px; }
+  .stats .wrap { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  @media (max-width: 700px) { .stats .wrap { grid-template-columns: repeat(2, 1fr); } }
+  .stat { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-align: center; }
+  .stat b { display: block; font-size: 28px; letter-spacing: -.5px; }
+  .stat span { font-size: 13px; color: var(--text-dim); }
+
+  /* ── Features ── */
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 44px; }
+  @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 24px; transition: border-color .2s, transform .2s;
+  }
+  .card:hover { border-color: rgba(124,58,237,.45); transform: translateY(-2px); }
+  .card .ico { font-size: 26px; }
+  .card h3 { font-size: 17px; margin: 10px 0 6px; }
+  .card p { font-size: 14.5px; color: var(--text-dim); }
+  .tag { display: inline-block; margin-left: 6px; padding: 1px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; vertical-align: 2px; background: rgba(16,185,129,.15); color: var(--green); }
+
+  /* ── Free table ── */
+  .alt { background: linear-gradient(180deg, transparent, rgba(124,58,237,.06), transparent); }
+  .table-wrap { margin-top: 40px; overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); }
+  table { width: 100%; border-collapse: collapse; min-width: 520px; font-size: 15px; }
+  th, td { padding: 15px 18px; text-align: left; border-bottom: 1px solid var(--border); }
+  tr:last-child td { border-bottom: none; }
+  th { font-size: 13px; color: var(--text-dim); font-weight: 600; background: var(--surface); }
+  th.us { color: var(--accent-2); }
+  td.us { color: var(--green); font-weight: 600; background: rgba(124,58,237,.06); }
+  td.them { color: var(--text-dim); }
+
+  /* ── Steps ── */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 44px; counter-reset: step; }
+  @media (max-width: 800px) { .steps { grid-template-columns: 1fr; } }
+  .step { padding: 24px; border-radius: var(--radius); border: 1px solid var(--border); }
+  .step::before {
+    counter-increment: step; content: counter(step);
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--accent); color: #fff; font-weight: 800; margin-bottom: 12px;
+  }
+  .step h3 { font-size: 17px; margin-bottom: 4px; }
+  .step p { color: var(--text-dim); font-size: 14.5px; }
+  kbd {
+    display: inline-block; padding: 1px 7px; border-radius: 5px;
+    background: var(--surface2); border: 1px solid var(--border); border-bottom-width: 2px;
+    font: 12.5px ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--text);
+  }
+
+  /* ── Timeline ── */
+  .timeline { margin-top: 40px; border-left: 2px solid var(--border); padding-left: 24px; display: grid; gap: 22px; max-width: 760px; }
+  .tl { position: relative; }
+  .tl::before { content: ""; position: absolute; left: -31px; top: 7px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px var(--bg); }
+  .tl .v { font-size: 13px; font-weight: 700; color: var(--accent-2); }
+  .tl q { display: block; color: var(--text-dim); font-style: italic; margin: 2px 0; }
+  .tl q::before, .tl q::after { content: ""; }
+  .tl p { font-size: 15px; }
+  .quote {
+    margin-top: 44px; padding: 28px; border-radius: var(--radius);
+    background: var(--surface); border: 1px solid var(--border); max-width: 760px;
+  }
+  .quote .stars { color: var(--amber); letter-spacing: 2px; }
+  .quote blockquote { font-size: 19px; margin: 8px 0; }
+  .quote cite { font-size: 13px; color: var(--text-muted); font-style: normal; }
+
+  /* ── Privacy ── */
+  .privacy .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+  @media (max-width: 800px) { .privacy .wrap { grid-template-columns: 1fr; } }
+  .checks { list-style: none; display: grid; gap: 12px; }
+  .checks li { display: flex; gap: 12px; padding: 14px 16px; border-radius: 12px; background: var(--surface); border: 1px solid var(--border); font-size: 15px; }
+  .checks li::before { content: "✓"; color: var(--green); font-weight: 800; }
+
+  /* ── FAQ ── */
+  .faq { max-width: 760px; margin: 40px auto 0; display: grid; gap: 10px; }
+  details { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 4px 20px; }
+  summary { cursor: pointer; padding: 14px 0; font-weight: 600; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; color: var(--accent-2); font-size: 20px; line-height: 1; }
+  details[open] summary::after { content: "−"; }
+  details p { color: var(--text-dim); padding-bottom: 16px; font-size: 15px; }
+
+  /* ── Final CTA + footer ── */
+  .final { text-align: center; }
+  .final .box {
+    padding: 56px 24px; border-radius: 22px;
+    background: radial-gradient(circle at 50% 0%, rgba(124,58,237,.35), rgba(124,58,237,.06) 70%);
+    border: 1px solid rgba(124,58,237,.35);
+  }
+  .final p { color: var(--text-dim); margin: 10px 0 26px; }
+  footer { border-top: 1px solid var(--border); padding: 32px 0 44px; font-size: 14px; color: var(--text-muted); }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 16px 28px; justify-content: space-between; align-items: center; }
+  footer nav { all: unset; display: flex; flex-wrap: wrap; gap: 20px; }
+  footer a:hover { color: var(--text); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="#">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <rect x="4" y="9" width="3.5" height="10" rx="1.75"/><rect x="10.25" y="5" width="3.5" height="14" rx="1.75"/><rect x="16.5" y="7.5" width="3.5" height="11.5" rx="1.75"/>
+      </svg>
+      Volume Master
+    </a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#free">Why it's free</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#faq">FAQ</a>
+      <a class="btn btn-primary" href="https://chromewebstore.google.com/detail/fhlnjpnemdhhoejgdelndonecnbeolok">Add to Chrome</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <span class="badge"><b>★ 4.9</b> · 4,000+ users · Free forever</span>
+      <h1>Make any tab louder.<br><em>Up to 1000%.</em></h1>
+      <p>A free volume booster for Chrome that gets louder without the crackle, remembers your level for every site, and even works on browser games.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://chromewebstore.google.com/detail/fhlnjpnemdhhoejgdelndonecnbeolok">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+          Add to Chrome, it's free
+        </a>
+        <a class="btn btn-ghost" href="#features">See what it does</a>
+      </div>
+      <p class="fine">No account. No ads. No tracking. Every feature is free.</p>
+    </div>
+
+    <!-- Interactive replica of the real popup -->
+    <div>
+      <div class="popup" aria-label="Volume Master popup preview">
+        <div class="popup-head">
+          <span class="logo">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <rect x="4" y="9" width="3.5" height="10" rx="1.75"/><rect x="10.25" y="5" width="3.5" height="14" rx="1.75"/><rect x="16.5" y="7.5" width="3.5" height="11.5" rx="1.75"/>
+            </svg>
+            Volume Master
+          </span>
+          <span style="font-size:12px;color:var(--text-muted)">💾 Saved for this site</span>
+        </div>
+        <div class="popup-site">🎬 Your favorite video site</div>
+        <div class="popup-body">
+          <div class="vol" id="vol">150<small>%</small></div>
+          <div class="bars" id="bars"></div>
+          <input type="range" id="slider" min="0" max="1000" step="10" value="150" aria-label="Volume">
+          <div class="scale"><span>0%</span><span>100%</span><span>1000%</span></div>
+          <div class="sb">
+            <div>⚡ Smart Boost<small id="sb-note">Turns on by itself above 400%</small></div>
+            <div class="toggle" id="toggle"></div>
+          </div>
+          <div class="presets">
+            <button data-v="50">50%</button><button data-v="100">100%</button><button data-v="200">200%</button><button data-v="400">400%</button><button data-v="1000">1000%</button>
+          </div>
+        </div>
+      </div>
+      <p class="demo-note">Try it: drag the slider. This is what the popup looks like.</p>
+    </div>
+  </div>
+</header>
+
+<div class="stats">
+  <div class="wrap">
+    <div class="stat"><b>4,000+</b><span>people use it</span></div>
+    <div class="stat"><b>4.9 ★</b><span>Chrome Web Store rating</span></div>
+    <div class="stat"><b>24</b><span>languages</span></div>
+    <div class="stat"><b>0</b><span>ads, trackers or paywalls</span></div>
+  </div>
+</div>
+
+<section id="features">
+  <div class="wrap center">
+    <span class="eyebrow">Features</span>
+    <h2>Everything you need. Nothing you pay for.</h2>
+    <p class="lead">Every feature here came from a real user telling us what was missing.</p>
+    <div class="grid" style="text-align:left">
+      <div class="card"><div class="ico">🔊</div><h3>Boost up to 1000%</h3><p>Drag the slider or tap a preset. Independent of your system volume, so quiet videos finally get loud enough.</p></div>
+      <div class="card"><div class="ico">⚡</div><h3>Smart Boost</h3><p>Above 400% a built-in compressor switches on and catches loud peaks before they crackle. Louder, not harsher.</p></div>
+      <div class="card"><div class="ico">💾</div><h3>Per-site memory <span class="tag">FREE</span></h3><p>Save a level once and it comes back automatically every visit. No popup needed.</p></div>
+      <div class="card"><div class="ico">🗂️</div><h3>Saved Sites manager</h3><p>Flip the popup to see every site you've saved, open one, or remove it in a click.</p></div>
+      <div class="card"><div class="ico">🎮</div><h3>Works on browser games</h3><p>Most boosters do nothing on games. Ours hooks the game's own audio engine, including games in embedded players.</p></div>
+      <div class="card"><div class="ico">📺</div><h3>Sticks across episodes</h3><p>On streaming sites your level stays put when the next episode starts. No re-saving every time.</p></div>
+      <div class="card"><div class="ico">🎚️</div><h3>Per-tab control</h3><p>Every tab has its own level. Mute one without touching the rest, and jump to any tab playing audio.</p></div>
+      <div class="card"><div class="ico">⌨️</div><h3>Keyboard shortcuts</h3><p><kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>↑</kbd>/<kbd>↓</kbd> for volume, <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>M</kbd> to mute. Remap them anytime.</p></div>
+      <div class="card"><div class="ico">🌍</div><h3>In your language</h3><p>Available in 24 languages, from Español and Português to 日本語 and हिन्दी.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="free" class="alt">
+  <div class="wrap center">
+    <span class="eyebrow">Free means free</span>
+    <h2>No "Pro" wall in front of the good stuff.</h2>
+    <p class="lead">A lot of volume boosters give you a taste for free, then lock the features you actually want behind a payment. We don't.</p>
+    <div class="table-wrap" style="text-align:left">
+      <table>
+        <thead><tr><th></th><th class="us">Volume Master Remastered</th><th>Typical "freemium" booster</th></tr></thead>
+        <tbody>
+          <tr><td>Boost up to 1000%</td><td class="us">✓ Free</td><td class="them">Often capped lower unless you pay</td></tr>
+          <tr><td>Remembers your level per site</td><td class="us">✓ Free</td><td class="them">Often a paid feature</td></tr>
+          <tr><td>Anti-crackle compressor</td><td class="us">✓ Free, automatic</td><td class="them">Varies</td></tr>
+          <tr><td>Browser games</td><td class="us">✓ Works</td><td class="them">Often silently does nothing</td></tr>
+          <tr><td>Account, license key or checkout</td><td class="us">✓ None</td><td class="them">Needed to unlock features</td></tr>
+          <tr><td>Ads or tracking</td><td class="us">✓ None</td><td class="them">Varies</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap center">
+    <span class="eyebrow">How it works</span>
+    <h2>Louder in three seconds.</h2>
+    <div class="steps" style="text-align:left">
+      <div class="step"><h3>Add it to Chrome</h3><p>One click from the Chrome Web Store. Pin it to your toolbar so it's always there.</p></div>
+      <div class="step"><h3>Open it on any tab</h3><p>Drag the slider, tap a preset, or use <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>↑</kbd> without opening anything.</p></div>
+      <div class="step"><h3>Save it for the site</h3><p>Hit "Save for site" and that level comes back every time you visit. Set it once, forget it.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <span class="eyebrow">Built with our users</span>
+    <h2>Every update started as a complaint.</h2>
+    <p class="lead">We don't guess what to build. People tell us what's broken, and we fix it.</p>
+    <div class="timeline">
+      <div class="tl"><span class="v">v3.4</span><q>"Let us tell you what to build next."</q><p>A quick, optional question in the popup so regular users can shape what comes next.</p></div>
+      <div class="tl"><span class="v">v3.3</span><q>"I can't see which sites I've saved."</q><p>The Saved Sites manager: every saved site in one list, open or remove in a click.</p></div>
+      <div class="tl"><span class="v">v3.2</span><q>"I have to re-save my volume every episode."</q><p>Your level now sticks when a streaming site moves to the next episode.</p></div>
+      <div class="tl"><span class="v">v3.1</span><q>"Works on video, but not on browser games."</q><p>Boosting now works on HTML5, WebGL and Flash (Ruffle) games, even in embedded players.</p></div>
+    </div>
+    <div class="quote">
+      <div class="stars">★★★★★</div>
+      <blockquote>"Spent some time to find volume booster that remembers my choice and came across your extension. So good so far!"</blockquote>
+      <cite>Chrome Web Store review</cite>
+    </div>
+  </div>
+</section>
+
+<section id="privacy" class="privacy">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Privacy</span>
+      <h2>Your audio stays in your browser.</h2>
+      <p class="lead">Volume Master needs permission to run on every site, because that's the only way to reach each page's audio. We use it for exactly that, and nothing else.</p>
+      <p class="fine" style="margin-top:18px"><a href="privacy.html" style="color:var(--accent-2)">Read the full privacy policy →</a></p>
+    </div>
+    <ul class="checks">
+      <li>No page content is read. Only the audio is touched.</li>
+      <li>Nothing is collected, and nothing is sent anywhere.</li>
+      <li>No analytics, no ads, no third-party services.</li>
+      <li>Your saved levels live only in your own browser.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="faq" class="alt">
+  <div class="wrap center">
+    <span class="eyebrow">FAQ</span>
+    <h2>Questions people ask</h2>
+    <div class="faq" style="text-align:left">
+      <details><summary>Is it really free?</summary><p>Yes. Every feature is free, with no ads, no account and no trial. There's no paywall in front of 1000% boost or per-site memory.</p></details>
+      <details><summary>Why does it need access to all websites?</summary><p>To boost a page's audio, the extension has to connect to that page's audio pipeline, and you might want to boost any site. It doesn't read the page's content, and it doesn't collect or send any data.</p></details>
+      <details><summary>Will boosting damage my speakers or my hearing?</summary><p>Smart Boost keeps loud peaks from crackling, which is easier on speakers. Very high levels can still be uncomfortably loud, especially on headphones, so turn it up gradually and take it easy on your ears.</p></details>
+      <details><summary>How do I make a site always play at the same volume?</summary><p>Set the level you like, then tap "Save for site". Next time you open that site, the level comes back by itself. Manage all saved sites from the list icon in the popup.</p></details>
+      <details><summary>Does it work on games and embedded videos?</summary><p>Yes. It works on video and audio players, players embedded in other pages, and browser games built with HTML5, WebGL, Unity or Flash (via Ruffle).</p></details>
+      <details><summary>Can I control it with my keyboard?</summary><p>Yes: Alt+Shift+↑ and Alt+Shift+↓ change the volume by 10%, and Alt+Shift+M mutes. You can change them at chrome://extensions/shortcuts.</p></details>
+      <details><summary>Something isn't working on a site. What do I do?</summary><p>Email <a href="mailto:ravikirankallepally@gmail.com?subject=Volume%20Master%20feedback" style="color:var(--accent-2)">ravikirankallepally@gmail.com</a> with the site name. Most of our updates started as messages like that.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <div class="box">
+      <h2>Quiet video? Fixed in one click.</h2>
+      <p>Join 4,000+ people who boost their tabs with Volume Master.</p>
+      <a class="btn btn-primary" href="https://chromewebstore.google.com/detail/fhlnjpnemdhhoejgdelndonecnbeolok">Add to Chrome, it's free</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Volume Master Remastered · Made by Ravikiran Kallepally</span>
+    <nav>
+      <a href="https://chromewebstore.google.com/detail/fhlnjpnemdhhoejgdelndonecnbeolok">Chrome Web Store</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="mailto:ravikirankallepally@gmail.com?subject=Volume%20Master%20feedback">Feedback</a>
+      <a href="https://github.com/Ravikiran-Kallepally/Volume-Master">GitHub</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+  // Popup replica: slider drives the % readout, the EQ bars and Smart Boost.
+  const slider = document.getElementById('slider');
+  const vol    = document.getElementById('vol');
+  const bars   = document.getElementById('bars');
+  const toggle = document.getElementById('toggle');
+  const note   = document.getElementById('sb-note');
+  const N = 18;
+  for (let i = 0; i < N; i++) bars.appendChild(document.createElement('span'));
+
+  function render() {
+    const v = +slider.value;
+    vol.firstChild.nodeValue = v;
+    vol.classList.toggle('loud', v > 400);
+    toggle.classList.toggle('on', v > 400);
+    note.textContent = v > 400 ? 'On: catching peaks so it stays clean' : 'Turns on by itself above 400%';
+    const level = Math.min(1, v / 1000);
+    [...bars.children].forEach((b, i) => {
+      const shape = 0.45 + 0.55 * Math.abs(Math.sin(i * 0.9 + v / 120));
+      // Smart Boost caps the tallest bars, like a limiter catching peaks
+      const h = Math.max(3, 34 * Math.min(v > 400 ? 0.82 : 1, shape * (0.15 + level)));
+      b.style.height = h + 'px';
+    });
+  }
+  slider.addEventListener('input', render);
+  document.querySelectorAll('.presets button').forEach(b =>
+    b.addEventListener('click', () => { slider.value = b.dataset.v; render(); }));
+  render();
+</script>
+</body>
+</html>

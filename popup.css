@@ -60,6 +60,8 @@ body {
   background-clip: text;
 }
 
+.logo-sub { font-weight: 600; }
+
 .header-right { display: flex; align-items: center; gap: 8px; }
 
 .btn-share {

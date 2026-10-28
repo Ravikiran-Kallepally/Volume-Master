@@ -3,8 +3,19 @@
  * Manages per-tab state, per-site memory, and keyboard shortcuts.
  */
 
-// In-memory tab state: tabId → { volume, muted, smartBoost }
+// Tab state: tabId → { volume, muted, smartBoost }
+// Chrome stops this service worker after ~30s idle, wiping in-memory state —
+// the popup then showed 100% on a boosted tab and Alt+Shift+↑ jumped down to
+// 110%. So it's mirrored to storage.session (survives worker restarts, cleared
+// when the browser closes) and reloaded before any handler reads it.
 const tabState = {};
+const tabStateReady = chrome.storage.session.get('vm_tabs')
+  .then(({ vm_tabs }) => { Object.assign(tabState, vm_tabs || {}); })
+  .catch(() => {});
+
+function persistTabState() {
+  chrome.storage.session.set({ vm_tabs: tabState }).catch(() => {});
+}
 
 // ── Injection ────────────────────────────────────────────────────────────────
 
@@ -26,6 +37,7 @@ async function applyToTab(tabId, volume, muted, smartBoost = false) {
   const ok = await ensureInjected(tabId);
   if (!ok) return false;
   tabState[tabId] = { volume, muted, smartBoost };
+  persistTabState();
   try {
     // Single message — avoids tearing down the audio graph 3× per slider tick
     await chrome.tabs.sendMessage(tabId, { type: 'SET_AUDIO_STATE', volume, muted, smartBoost });
@@ -47,6 +59,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, info, tab) => {
   // Re-assert the live session boost (SPA navigation can't change origin, so
   // carrying the current tab's level is safe); fall back to per-site memory.
   if (info.url && info.status !== 'complete') {
+    await tabStateReady;
     const cur = tabState[tabId];
     if (cur && (cur.volume !== 1.0 || cur.muted)) {
       await applyToTab(tabId, cur.volume, cur.muted, cur.smartBoost);
@@ -72,8 +85,10 @@ chrome.tabs.onUpdated.addListener(async (tabId, info, tab) => {
 
 // ── Cleanup ──────────────────────────────────────────────────────────────────
 
-chrome.tabs.onRemoved.addListener(tabId => {
+chrome.tabs.onRemoved.addListener(async tabId => {
+  await tabStateReady;
   delete tabState[tabId];
+  persistTabState();
 });
 
 // ── Keyboard shortcuts ───────────────────────────────────────────────────────
@@ -82,6 +97,7 @@ chrome.commands.onCommand.addListener(async command => {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   if (!tab) return;
 
+  await tabStateReady;
   const cur = tabState[tab.id] ?? { volume: 1.0, muted: false, smartBoost: false };
 
   if (command === 'increase-volume') {
@@ -99,6 +115,7 @@ chrome.commands.onCommand.addListener(async command => {
 
 chrome.runtime.onMessage.addListener((msg, _sender, respond) => {
   (async () => {
+    await tabStateReady;
     switch (msg.type) {
 
       case 'GET_TAB_STATE':

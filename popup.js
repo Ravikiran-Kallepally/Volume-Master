@@ -181,6 +181,13 @@ async function unsaveSite() {
   try {
     await bgMsg({ type: 'REMOVE_SITE_VOLUME', hostname });
     setSaveState(false);
+    // Also drop the live boost back to 100%, same as Reset. Previously the tab
+    // stayed loud, then "sometimes" reset depending on how the page reloaded.
+    volume           = 1.0;
+    smartBoost       = false;
+    smartBoostManual = null;
+    updateUI(volume, muted, smartBoost);
+    await applyNow();
     showToast(`Removed saved setting for ${hostname}`);
   } catch {}
 }

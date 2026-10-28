@@ -10,6 +10,18 @@
 
 ---
 
+### v3.5.0 — Full Name, Website & Two Reliability Fixes
+
+> The popup now says who we are, and remembers what you set
+
+- **Full name in the popup:** the header now reads **Volume Master Remastered** (was "Volume Master", the same name as a different, older extension). Popup title and share card too
+- **Website:** new landing page at https://ravikiran-kallepally.github.io/Volume-Master/, linked from the manifest (`homepage_url`) so Chrome shows it as the extension's website
+- **Fix: boosted tabs no longer "forget" their level.** Chrome stops the background worker after ~30s idle, which wiped per-tab state. The popup then showed 100% on a tab really playing at 300%, and Alt+Shift+↑ jumped *down* to 110%. Tab state is now mirrored to `chrome.storage.session` (survives worker restarts, cleared when the browser closes)
+- **Fix: Unsave now resets the tab to 100%.** Previously it removed the saved entry but left the tab loud, then "sometimes" reset depending on how the page reloaded. Now it behaves like Reset, every time
+- No audio-path changes (the always-on media routing fix is held for its own release)
+
+---
+
 ### v3.4.0 — Feature Survey (Engaged Users Only)
 
 > Ask the people who actually use it what they'd pay for

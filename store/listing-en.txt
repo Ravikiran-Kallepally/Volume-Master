@@ -22,6 +22,7 @@ Alt+Shift+M — mute toggle
 Send the extension to friends directly from the popup via WhatsApp, Reddit, X, Facebook, or LinkedIn — or just copy the link.
 
 ✨ 𝐖𝐡𝐚𝐭'𝐬 𝐧𝐞𝐰 :
+v3.5 — Your boost now stays exactly where you set it, even after the browser sits idle, and keyboard shortcuts always pick up from the right level. Unsave now resets the tab to 100%. Plus a new website.
 v3.4 — Help decide what gets built next: a quick, optional question for regular users, plus a "Help shape what's next" link in the popup.
 v3.3 — New Saved Sites list: flip the popup to see every site you've saved a volume for, open it, or remove it in one click. Saving at exactly 100% now works too.
 v3.2 — Your saved volume now sticks across episodes on streaming sites — no more re-saving every time you change episode.

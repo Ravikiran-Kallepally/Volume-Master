@@ -85,6 +85,12 @@
   nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
   .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 17px; }
   .logo svg { color: var(--accent-2); }
+  .logo .remastered { color: var(--accent-2); font-weight: 600; }
+  .nav-links .btn { white-space: nowrap; }
+  @media (max-width: 420px) {
+    nav .logo { font-size: 14.5px; line-height: 1.25; }
+    nav .nav-links .btn { padding: 8px 12px; font-size: 13px; }
+  }
   .nav-links { display: flex; align-items: center; gap: 26px; font-size: 14px; color: var(--text-dim); }
   .nav-links a:hover { color: var(--text); }
   .nav-links .btn { padding: 9px 16px; font-size: 14px; color: #fff; }
@@ -257,7 +263,7 @@
       <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <rect x="4" y="9" width="3.5" height="10" rx="1.75"/><rect x="10.25" y="5" width="3.5" height="14" rx="1.75"/><rect x="16.5" y="7.5" width="3.5" height="11.5" rx="1.75"/>
       </svg>
-      Volume Master
+      <span>Volume Master <span class="remastered">Remastered</span></span>
     </a>
     <div class="nav-links">
       <a href="#features">Features</a>
@@ -287,7 +293,7 @@
 
     <!-- Interactive replica of the real popup -->
     <div>
-      <div class="popup" aria-label="Volume Master popup preview">
+      <div class="popup" aria-label="Volume Master Remastered popup preview">
         <div class="popup-head">
           <span class="logo">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -402,7 +408,7 @@
     <div>
       <span class="eyebrow">Privacy</span>
       <h2>Your audio stays in your browser.</h2>
-      <p class="lead">Volume Master needs permission to run on every site, because that's the only way to reach each page's audio. We use it for exactly that, and nothing else.</p>
+      <p class="lead">Volume Master Remastered needs permission to run on every site, because that's the only way to reach each page's audio. We use it for exactly that, and nothing else.</p>
       <p class="fine" style="margin-top:18px"><a href="privacy.html" style="color:var(--accent-2)">Read the full privacy policy →</a></p>
     </div>
     <ul class="checks">
@@ -434,7 +440,7 @@
   <div class="wrap">
     <div class="box">
       <h2>Quiet video? Fixed in one click.</h2>
-      <p>Join 4,000+ people who boost their tabs with Volume Master.</p>
+      <p>Join 4,000+ people who boost their tabs with Volume Master Remastered.</p>
       <a class="btn btn-primary" href="https://chromewebstore.google.com/detail/fhlnjpnemdhhoejgdelndonecnbeolok">Add to Chrome, it's free</a>
     </div>
   </div>
